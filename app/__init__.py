@@ -2,7 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from app.config import Config
-from app.routes import auth
+from app.routes import auth, user
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -18,5 +18,6 @@ def create_app():
     
     # Register blueprints
     app.register_blueprint(auth)
+    app.register_blueprint(user)
     
     return app

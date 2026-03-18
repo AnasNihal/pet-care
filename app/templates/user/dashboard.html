@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Smart Pet Care & Adoption</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('user.dashboard') }}">Pet Adoption</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('user.dashboard') }}">Dashboard</a>
+                <a class="nav-link" href="{{ url_for('user.my_requests') }}">My Requests</a>
+                <a class="nav-link" href="{{ url_for('user.services') }}">Services</a>
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2>Available Pets for Adoption</h2>
+                <p class="text-muted">Find your perfect companion</p>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for pet in pets %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if pet.image_url %}
+                    <img src="{{ pet.image_url }}" class="card-img-top" alt="{{ pet.name }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <span class="text-muted">No Image</span>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pet.name }}</h5>
+                        <p class="card-text">
+                            <strong>Species:</strong> {{ pet.species.capitalize() }}<br>
+                            <strong>Breed:</strong> {{ pet.breed or 'Unknown' }}<br>
+                            <strong>Age:</strong> {{ pet.age or 'Unknown' }} years
+                        </p>
+                        <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
+                        <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" class="btn btn-primary btn-sm">Adopt Me</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4>No pets available for adoption at the moment.</h4>
+                    <p>Please check back later!</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

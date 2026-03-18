@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Services - Smart Pet Care & Adoption</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('user.dashboard') }}">Pet Adoption</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('user.dashboard') }}">Dashboard</a>
+                <a class="nav-link" href="{{ url_for('user.my_requests') }}">My Requests</a>
+                <a class="nav-link" href="{{ url_for('user.services') }}">Services</a>
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2>Pet Care Services</h2>
+                <p class="text-muted">Find trusted veterinary, grooming, and training services for your pets</p>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for service in services %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                {% if service.service_type == 'vet' %}
+                                <span class="badge bg-danger fs-6">🏥 Vet</span>
+                                {% elif service.service_type == 'grooming' %}
+                                <span class="badge bg-info fs-6">✂️ Grooming</span>
+                                {% elif service.service_type == 'training' %}
+                                <span class="badge bg-success fs-6">🎓 Training</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <h5 class="card-title">{{ service.name }}</h5>
+                        
+                        {% if service.description %}
+                        <p class="card-text">{{ service.description }}</p>
+                        {% endif %}
+                        
+                        <div class="card-text">
+                            <p class="mb-2">
+                                <strong>Service Type:</strong> {{ service.service_type.capitalize() }}
+                            </p>
+                            {% if service.contact %}
+                            <p class="mb-2">
+                                <strong>Contact:</strong> {{ service.contact }}
+                            </p>
+                            {% endif %}
+                            {% if service.location %}
+                            <p class="mb-0">
+                                <strong>Location:</strong> {{ service.location }}
+                            </p>
+                            {% endif %}
+                        </div>
+                        
+                        <button class="btn btn-outline-primary btn-sm">Contact Service</button>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4>No pet services available at the moment.</h4>
+                    <p>Please check back later for updates on available services!</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

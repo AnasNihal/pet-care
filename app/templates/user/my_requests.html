@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Adoption Requests - Smart Pet Care & Adoption</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('user.dashboard') }}">Pet Adoption</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{{ url_for('user.dashboard') }}">Dashboard</a>
+                <a class="nav-link" href="{{ url_for('user.my_requests') }}">My Requests</a>
+                <a class="nav-link" href="{{ url_for('user.services') }}">Services</a>
+                <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h2>My Adoption Requests</h2>
+                <p class="text-muted">Track the status of your adoption requests</p>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for request in requests %}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h5 class="card-title">{{ request.pet.name }}</h5>
+                                <p class="card-text">
+                                    <strong>Species:</strong> {{ request.pet.species.capitalize() }}<br>
+                                    <strong>Breed:</strong> {{ request.pet.breed or 'Unknown' }}<br>
+                                    <strong>Request Date:</strong> {{ request.created_at.strftime('%B %d, %Y') }}<br>
+                                    <strong>Status:</strong> 
+                                    <span class="badge bg-{{ 
+                                        'warning' if request.status == 'pending' 
+                                        else 'success' if request.status == 'approved' 
+                                        else 'danger' }}">
+                                        {{ request.status.capitalize() }}
+                                    </span>
+                                </p>
+                                {% if request.message %}
+                                <p class="card-text"><strong>Your Message:</strong> {{ request.message[:100] }}{% if request.message|length > 100 %}...{% endif %}</p>
+                                {% endif %}
+                            </div>
+                            {% if request.pet.image_url %}
+                            <img src="{{ request.pet.image_url }}" class="rounded" alt="{{ request.pet.name }}" style="width: 80px; height: 80px; object-fit: cover;">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4>You haven't made any adoption requests yet.</h4>
+                    <p>Browse our <a href="{{ url_for('user.dashboard') }}">available pets</a> and find your perfect companion!</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
