@@ -2,20 +2,33 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required
 from app.models import User
 from app import db
+import re
 
 auth = Blueprint('auth', __name__, url_prefix='/auth')
+
+def validate_email(email):
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(pattern, email) is not None
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
+        confirm_password = request.form.get('confirm_password', '')
         
         # Validation
-        if not all([name, email, password, confirm_password]):
-            flash('Please fill in all fields', 'error')
+        if not name:
+            flash('Name is required', 'error')
+            return render_template('auth/register.html')
+        
+        if not email or not validate_email(email):
+            flash('Please enter a valid email address', 'error')
+            return render_template('auth/register.html')
+        
+        if not password or len(password) < 6:
+            flash('Password must be at least 6 characters long', 'error')
             return render_template('auth/register.html')
         
         if password != confirm_password:
@@ -42,11 +55,15 @@ def register():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
         
-        if not email or not password:
-            flash('Please enter email and password', 'error')
+        if not email or not validate_email(email):
+            flash('Please enter a valid email address', 'error')
+            return render_template('auth/login.html')
+        
+        if not password:
+            flash('Please enter your password', 'error')
             return render_template('auth/login.html')
         
         user = User.query.filter_by(email=email).first()
