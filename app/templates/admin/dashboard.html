@@ -1,127 +1,127 @@
 {% extends "admin/base.html" %}
 
-{% block title %}Dashboard{% endblock %}
-
-{% block page_title %}Dashboard{% endblock %}
+{% block title %}Admin Dashboard - PawPal{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                            Total Pets
+<div class="admin-content">
+    <!-- Top Bar -->
+    <div class="bg-white shadow-sm p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="fw-bold mb-0">Dashboard</h2>
+            <div class="d-flex align-items-center">
+                <span class="text-secondary me-3">👤 {{ current_user.name }}</span>
+                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                    <span class="text-white fw-bold">{{ current_user.name[0] }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 rounded-4 shadow h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary bg-opacity-10 rounded-3 p-3 me-3">
+                            <span class="fs-3">🐾</span>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_pets }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <span class="fas fa-paw fa-2x text-gray-300">🐾</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Total Users
+                        <div>
+                            <h3 class="fw-bold mb-0 text-primary">{{ total_pets }}</h3>
+                            <p class="text-secondary mb-0">Total Pets</p>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_users }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <span class="fas fa-users fa-2x text-gray-300">👥</span>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Pending Requests
+        
+        <div class="col-md-3">
+            <div class="card border-0 rounded-4 shadow h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success bg-opacity-10 rounded-3 p-3 me-3">
+                            <span class="fs-3">👥</span>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ pending_requests }}</div>
-                    </div>
-                    <div class="col-auto">
-                        <span class="fas fa-clock fa-2x text-gray-300">⏰</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-xl-3 col-md-6 mb-4">
-        <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                            Approved Requests
+                        <div>
+                            <h3 class="fw-bold mb-0 text-success">{{ total_users }}</h3>
+                            <p class="text-secondary mb-0">Total Users</p>
                         </div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ approved_requests }}</div>
                     </div>
-                    <div class="col-auto">
-                        <span class="fas fa-check fa-2x text-gray-300">✅</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card border-0 rounded-4 shadow h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-warning bg-opacity-10 rounded-3 p-3 me-3">
+                            <span class="fs-3">⏰</span>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold mb-0 text-warning">{{ pending_requests }}</h3>
+                            <p class="text-secondary mb-0">Pending Requests</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card border-0 rounded-4 shadow h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-info bg-opacity-10 rounded-3 p-3 me-3">
+                            <span class="fs-3">✅</span>
+                        </div>
+                        <div>
+                            <h3 class="fw-bold mb-0 text-info">{{ approved_requests }}</h3>
+                            <p class="text-secondary mb-0">Approved Adoptions</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-lg-6 mb-4">
-        <div class="card shadow">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Quick Actions</h6>
-            </div>
-            <div class="card-body">
-                <div class="list-group">
-                    <a href="{{ url_for('admin.add_pet') }}" class="list-group-item list-group-item-action">
-                        🐾 Add New Pet
-                    </a>
-                    <a href="{{ url_for('admin.add_service') }}" class="list-group-item list-group-item-action">
-                        🏥 Add New Service
-                    </a>
-                    <a href="{{ url_for('admin.requests') }}" class="list-group-item list-group-item-action">
-                        📋 Review Adoption Requests
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-lg-6 mb-4">
-        <div class="card shadow">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">System Overview</h6>
-            </div>
-            <div class="card-body">
-                <p><strong>Platform Status:</strong> <span class="badge bg-success">Active</span></p>
-                <p><strong>Total Adoption Rate:</strong> 
-                    {% if total_pets > 0 %}
-                        {{ "%.1f"|format((approved_requests / total_pets) * 100) }}%
-                    {% else %}
-                        0%
-                    {% endif %}
-                </p>
-                <p><strong>Pending Review Rate:</strong> 
-                    {% if total_pets > 0 %}
-                        {{ "%.1f"|format((pending_requests / total_pets) * 100) }}%
-                    {% else %}
-                        0%
-                    {% endif %}
-                </p>
+    <!-- Recent Adoption Requests -->
+    <div class="card border-0 rounded-4 shadow">
+        <div class="card-body p-4">
+            <h4 class="fw-bold mb-4">Recent Adoption Requests</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Pet Name</th>
+                            <th>Adopter Name</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample data - in real app this would come from database -->
+                        <tr>
+                            <td>Max</td>
+                            <td>John Doe</td>
+                            <td>Dec 15, 2024</td>
+                            <td><span class="badge bg-warning">Pending</span></td>
+                            <td>
+                                <button class="btn btn-success btn-sm rounded-3">Approve</button>
+                                <button class="btn btn-danger btn-sm rounded-3">Reject</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Bella</td>
+                            <td>Jane Smith</td>
+                            <td>Dec 14, 2024</td>
+                            <td><span class="badge bg-success">Approved</span></td>
+                            <td>
+                                <button class="btn btn-secondary btn-sm rounded-3" disabled>Processed</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -1,63 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}Adopt {{ pet.name }} - Smart Pet Care & Adoption{% endblock %}
+{% block title %}Adopt {{ pet.name }} - PawPal{% endblock %}
 
 {% block content %}
-
-    <div class="container mt-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Adoption Request for {{ pet.name }}</h3>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card rounded-4 border-0 shadow-lg">
+                <div class="card-body p-4">
+                    <!-- Pet Info at Top -->
+                    <div class="text-center mb-4">
+                        {% if pet.image_url %}
+                        <img src="{{ pet.image_url }}" alt="{{ pet.name }}" class="rounded-3 mb-3" style="height: 200px; object-fit: cover; width: 200px;">
+                        {% else %}
+                        <div class="bg-light rounded-3 d-inline-flex align-items-center justify-content-center mb-3" style="height: 200px; width: 200px;">
+                            <span class="text-muted fs-2">🐾 No Image</span>
+                        </div>
+                        {% endif %}
+                        <h3 class="fw-bold">Adoption Request for {{ pet.name }}</h3>
+                        <p class="text-secondary">{{ pet.species.capitalize() }} • {{ pet.breed or 'Mixed' }} • {{ pet.age or 'Unknown' }} years</p>
                     </div>
-                    <div class="card-body">
-                        {% with messages = get_flashed_messages(with_categories=true) %}
-                            {% if messages %}
-                                {% for category, message in messages %}
-                                    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert">
-                                        {{ message }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    </div>
-                                {% endfor %}
-                            {% endif %}
-                        {% endwith %}
-                        
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                {% if pet.image_url %}
-                                <img src="{{ pet.image_url }}" class="img-fluid rounded" alt="{{ pet.name }}">
-                                {% else %}
-                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 200px;">
-                                    <span class="text-muted">No Image</span>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-8">
-                                <h5>{{ pet.name }}</h5>
-                                <p>
-                                    <strong>Species:</strong> {{ pet.species.capitalize() }}<br>
-                                    <strong>Breed:</strong> {{ pet.breed or 'Unknown' }}<br>
-                                    <strong>Age:</strong> {{ pet.age or 'Unknown' }} years<br>
-                                    <strong>Health Status:</strong> {{ pet.health_status or 'Not specified' }}
-                                </p>
-                            </div>
+
+                    <form method="POST">
+                        <div class="mb-4">
+                            <label for="message" class="form-label fw-semibold">Why do you want to adopt {{ pet.name }}?</label>
+                            <textarea class="form-control" id="message" name="message" rows="6" required
+                                      placeholder="Please tell us about your home, experience with pets, and why you would be a good owner for {{ pet.name }}..."></textarea>
                         </div>
                         
-                        <form method="POST">
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Why do you want to adopt {{ pet.name }}?</label>
-                                <textarea class="form-control" id="message" name="message" rows="5" required
-                                          placeholder="Please tell us about your home, experience with pets, and why you would be a good owner for {{ pet.name }}..."></textarea>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" class="btn btn-secondary">Back to Pet Details</a>
-                                <button type="submit" class="btn btn-primary">Submit Adoption Request</button>
-                            </div>
-                        </form>
-                    </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" class="btn btn-outline-secondary">← Back to Pet Details</a>
+                            <button type="submit" class="btn btn-primary">Submit Adoption Request</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

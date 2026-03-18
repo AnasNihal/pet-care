@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Page Not Found - Smart Pet Care & Adoption Platform{% endblock %}
+{% block title %}Page Not Found - PawPal{% endblock %}
 
 {% block content %}
-<div class="container text-center py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="fs-1 mb-4">🐾</div>
-            <h1 class="display-1 fw-bold text-primary">404</h1>
-            <h2 class="mb-4">Page Not Found</h2>
-            <p class="text-muted mb-4">
-                Oops! The page you're looking for seems to have wandered off. 
-                Don't worry, even the best pets sometimes get lost!
-            </p>
-            <div class="d-flex justify-content-center gap-3">
-                <a href="{{ url_for('main.index') }}" class="btn btn-primary">🏠 Go Home</a>
-                <a href="{{ url_for('user.dashboard') }}" class="btn btn-outline-primary">🐾 Browse Pets</a>
-            </div>
+<div class="container vh-100 d-flex align-items-center justify-content-center" style="background-color: var(--bg-color);">
+    <div class="text-center">
+        <div class="fs-1 mb-4">🐾</div>
+        <h1 class="display-1 fw-bold text-primary mb-4">404</h1>
+        <h2 class="fw-bold mb-3">Oops! Page not found</h2>
+        <p class="text-secondary mb-4">The page you're looking for seems to have wandered off. Don't worry, even the best pets sometimes get lost!</p>
+        
+        <div class="mb-5">
+            <img src="https://placedog.net/300/300" alt="Lost Dog" class="img-fluid rounded-4 shadow">
+        </div>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary">🏠 Go Home</a>
+            <a href="{{ url_for('user.dashboard') }}" class="btn btn-outline-primary">🐾 Browse Pets</a>
         </div>
     </div>
 </div>

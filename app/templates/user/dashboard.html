@@ -1,47 +1,100 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Smart Pet Care & Adoption Platform{% endblock %}
+{% block title %}Dashboard - PawPal{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-12">
-            <h2>Available Pets for Adoption</h2>
-            <p class="text-muted">Find your perfect companion</p>
+<div class="container py-5">
+    <!-- Greeting -->
+    <div class="mb-4">
+        <h1 class="fw-bold">Welcome back, {{ current_user.name }}! 🐾</h1>
+        <p class="text-secondary">Find your perfect companion from our available pets</p>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="mb-4">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary active" data-filter="all">All</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="dog">Dogs</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="cat">Cats</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="bird">Birds</button>
+            <button type="button" class="btn btn-outline-primary" data-filter="other">Other</button>
         </div>
     </div>
 
-    <div class="row">
+    <!-- Pet Cards Grid -->
+    <div class="row" id="pets-grid">
         {% for pet in pets %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 pet-card">
+        <div class="col-md-4 mb-4 pet-item" data-species="{{ pet.species }}">
+            <div class="card pet-card h-100">
                 {% if pet.image_url %}
-                <img src="{{ pet.image_url }}" class="card-img-top" alt="{{ pet.name }}" style="height: 200px; object-fit: cover;">
+                <img src="{{ pet.image_url }}" class="card-img-top" alt="{{ pet.name }}">
                 {% else %}
-                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                    <span class="text-muted">No Image</span>
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                    <span class="text-muted fs-4">🐾 No Image</span>
                 </div>
                 {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ pet.name }}</h5>
-                    <p class="card-text">
-                        <strong>Species:</strong> {{ pet.species.capitalize() }}<br>
-                        <strong>Breed:</strong> {{ pet.breed or 'Unknown' }}<br>
+                    <h5 class="card-title fw-semibold">{{ pet.name }}</h5>
+                    <div class="mb-2">
+                        {% if pet.species == 'dog' %}
+                        <span class="badge bg-primary">Dog</span>
+                        {% elif pet.species == 'cat' %}
+                        <span class="badge bg-danger">Cat</span>
+                        {% elif pet.species == 'bird' %}
+                        <span class="badge bg-success">Bird</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Other</span>
+                        {% endif %}
+                    </div>
+                    <p class="text-secondary mb-2">
+                        <strong>Breed:</strong> {{ pet.breed or 'Mixed' }}<br>
                         <strong>Age:</strong> {{ pet.age or 'Unknown' }} years
                     </p>
-                    <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" class="btn btn-outline-primary btn-sm">View Details</a>
-                    <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" class="btn btn-primary btn-sm">Adopt Me</a>
+                    {% if pet.health_status %}
+                    <p class="text-muted small mb-3">
+                        <strong>Health:</strong> {{ pet.health_status }}
+                    </p>
+                    {% endif %}
+                    <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" class="btn btn-outline-primary w-100 mb-2">View Details</a>
+                    <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" class="btn btn-primary w-100">Adopt Me</a>
                 </div>
             </div>
         </div>
         {% else %}
         <div class="col-12">
-            <div class="alert alert-info">
-                <h4>No pets available for adoption at the moment.</h4>
-                <p>Please check back later!</p>
+            <div class="text-center py-5">
+                <div class="fs-1 mb-3">🐾</div>
+                <h3 class="fw-bold">No pets available</h3>
+                <p class="text-secondary">Check back soon for new adorable pets looking for homes!</p>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+
+<script>
+// Simple filter functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('[data-filter]');
+    const petItems = document.querySelectorAll('.pet-item');
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active state
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            
+            petItems.forEach(item => {
+                if (filter === 'all' || item.dataset.species === filter) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+</script>
 {% endblock %}

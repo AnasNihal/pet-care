@@ -1,56 +1,65 @@
 {% extends "base.html" %}
 
-{% block title %}My Adoption Requests - Smart Pet Care & Adoption{% endblock %}
+{% block title %}My Adoption Requests - PawPal{% endblock %}
 
 {% block content %}
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="fw-bold">My Adoption Requests</h1>
+        <p class="text-secondary">Track the status of your adoption requests</p>
+    </div>
 
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h2>My Adoption Requests</h2>
-                <p class="text-muted">Track the status of your adoption requests</p>
-            </div>
-        </div>
-
-        <div class="row">
-            {% for request in requests %}
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h5 class="card-title">{{ request.pet.name }}</h5>
-                                <p class="card-text">
-                                    <strong>Species:</strong> {{ request.pet.species.capitalize() }}<br>
-                                    <strong>Breed:</strong> {{ request.pet.breed or 'Unknown' }}<br>
-                                    <strong>Request Date:</strong> {{ request.created_at.strftime('%B %d, %Y') }}<br>
-                                    <strong>Status:</strong> 
-                                    <span class="badge bg-{{ 
-                                        'warning' if request.status == 'pending' 
-                                        else 'success' if request.status == 'approved' 
-                                        else 'danger' }}">
-                                        {{ request.status.capitalize() }}
-                                    </span>
-                                </p>
-                                {% if request.message %}
-                                <p class="card-text"><strong>Your Message:</strong> {{ request.message[:100] }}{% if request.message|length > 100 %}...{% endif %}</p>
+    <div class="row">
+        {% for request in requests %}
+        <div class="col-md-6 mb-4">
+            <div class="card rounded-4 border-0 shadow h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-start mb-3">
+                        {% if request.pet.image_url %}
+                        <img src="{{ request.pet.image_url }}" alt="{{ request.pet.name }}" class="rounded-3 me-3" style="height: 80px; width: 80px; object-fit: cover;">
+                        {% else %}
+                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center me-3" style="height: 80px; width: 80px;">
+                            <span class="text-muted">🐾</span>
+                        </div>
+                        {% endif %}
+                        <div class="flex-grow-1">
+                            <h5 class="fw-semibold mb-1">{{ request.pet.name }}</h5>
+                            <p class="text-secondary mb-2">{{ request.pet.species.capitalize() }} • {{ request.pet.breed or 'Mixed' }}</p>
+                            <div class="mb-2">
+                                {% if request.status == 'pending' %}
+                                <span class="badge bg-warning">Pending</span>
+                                {% elif request.status == 'approved' %}
+                                <span class="badge bg-success">Approved</span>
+                                {% elif request.status == 'rejected' %}
+                                <span class="badge bg-danger">Rejected</span>
                                 {% endif %}
                             </div>
-                            {% if request.pet.image_url %}
-                            <img src="{{ request.pet.image_url }}" class="rounded" alt="{{ request.pet.name }}" style="width: 80px; height: 80px; object-fit: cover;">
-                            {% endif %}
                         </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <p class="text-secondary small mb-1">
+                            <strong>Submitted:</strong> {{ request.created_at.strftime('%B %d, %Y') }}
+                        </p>
+                        {% if request.message %}
+                        <p class="text-secondary small mb-0">
+                            <strong>Your Message:</strong> {{ request.message[:100] }}{% if request.message|length > 100 %}...{% endif %}
+                        </p>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-            {% else %}
-            <div class="col-12">
-                <div class="alert alert-info">
-                    <h4>You haven't made any adoption requests yet.</h4>
-                    <p>Browse our <a href="{{ url_for('user.dashboard') }}">available pets</a> and find your perfect companion!</p>
-                </div>
-            </div>
-            {% endfor %}
         </div>
+        {% else %}
+        <div class="col-12">
+            <div class="text-center py-5">
+                <div class="fs-1 mb-3">📋</div>
+                <h3 class="fw-bold">No adoption requests yet</h3>
+                <p class="text-secondary mb-4">You haven't made any adoption requests. Start browsing to find your perfect companion!</p>
+                <a href="{{ url_for('user.dashboard') }}" class="btn btn-primary">Browse Pets</a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}

@@ -1,68 +1,63 @@
 {% extends "base.html" %}
 
-{% block title %}Pet Services - Smart Pet Care & Adoption{% endblock %}
+{% block title %}Pet Services - PawPal{% endblock %}
 
 {% block content %}
-
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h2>Pet Care Services</h2>
-                <p class="text-muted">Find trusted veterinary, grooming, and training services for your pets</p>
-            </div>
-        </div>
-
-        <div class="row">
-            {% for service in services %}
-            <div class="col-md-6 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center mb-3">
-                            <div class="me-3">
-                                {% if service.service_type == 'vet' %}
-                                <span class="badge bg-danger fs-6">🏥 Vet</span>
-                                {% elif service.service_type == 'grooming' %}
-                                <span class="badge bg-info fs-6">✂️ Grooming</span>
-                                {% elif service.service_type == 'training' %}
-                                <span class="badge bg-success fs-6">🎓 Training</span>
-                                {% endif %}
-                            </div>
-                        </div>
-                        
-                        <h5 class="card-title">{{ service.name }}</h5>
-                        
-                        {% if service.description %}
-                        <p class="card-text">{{ service.description }}</p>
-                        {% endif %}
-                        
-                        <div class="card-text">
-                            <p class="mb-2">
-                                <strong>Service Type:</strong> {{ service.service_type.capitalize() }}
-                            </p>
-                            {% if service.contact %}
-                            <p class="mb-2">
-                                <strong>Contact:</strong> {{ service.contact }}
-                            </p>
-                            {% endif %}
-                            {% if service.location %}
-                            <p class="mb-0">
-                                <strong>Location:</strong> {{ service.location }}
-                            </p>
-                            {% endif %}
-                        </div>
-                        
-                        <button class="btn btn-outline-primary btn-sm">Contact Service</button>
-                    </div>
-                </div>
-            </div>
-            {% else %}
-            <div class="col-12">
-                <div class="alert alert-info">
-                    <h4>No pet services available at the moment.</h4>
-                    <p>Please check back later for updates on available services!</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Pet Care Services</h1>
+        <p class="text-secondary">Find trusted veterinary, grooming, and training services for your pets</p>
     </div>
+
+    <div class="row">
+        {% for service in services %}
+        <div class="col-md-4 mb-4">
+            <div class="card rounded-4 border-0 shadow h-100" style="background-color: var(--bg-color);">
+                <div class="card-body p-4">
+                    <div class="bg-white rounded-3 p-3 mb-3">
+                        <h5 class="fw-semibold text-center">{{ service.name }}</h5>
+                    </div>
+                    
+                    <div class="mb-3 text-center">
+                        {% if service.service_type == 'vet' %}
+                        <span class="badge bg-primary fs-6">🏥 Veterinary</span>
+                        {% elif service.service_type == 'grooming' %}
+                        <span class="badge bg-danger fs-6">✂️ Grooming</span>
+                        {% elif service.service_type == 'training' %}
+                        <span class="badge bg-success fs-6">🎓 Training</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if service.description %}
+                    <p class="text-secondary small mb-3">{{ service.description }}</p>
+                    {% endif %}
+                    
+                    <div class="mb-2">
+                        {% if service.contact %}
+                        <p class="text-secondary small mb-1">
+                            <strong>Contact:</strong> {{ service.contact }}
+                        </p>
+                        {% endif %}
+                        {% if service.location %}
+                        <p class="text-secondary small mb-0">
+                            <strong>📍 Location:</strong> {{ service.location }}
+                        </p>
+                        {% endif %}
+                    </div>
+                    
+                    <button class="btn btn-primary w-100">Contact Service</button>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="text-center py-5">
+                <div class="fs-1 mb-3">🏥</div>
+                <h3 class="fw-bold">No services available</h3>
+                <p class="text-secondary">Check back later for updates on available pet services!</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

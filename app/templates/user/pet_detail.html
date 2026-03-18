@@ -1,71 +1,92 @@
 {% extends "base.html" %}
 
-{% block title %}{{ pet.name }} - Pet Details{% endblock %}
+{% block title %}{{ pet.name }} - PawPal{% endblock %}
 
 {% block content %}
+<div class="container py-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('main.index') }}" class="text-decoration-none">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('user.dashboard') }}" class="text-decoration-none">Dashboard</a></li>
+            <li class="breadcrumb-item active">{{ pet.name }}</li>
+        </ol>
+    </nav>
 
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h2>{{ pet.name }}</h2>
-                        <div class="row mt-4">
-                            <div class="col-md-6">
-                                {% if pet.image_url %}
-                                <img src="{{ pet.image_url }}" class="img-fluid rounded" alt="{{ pet.name }}">
-                                {% else %}
-                                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 400px;">
-                                    <span class="text-muted">No Image Available</span>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-md-6">
-                                <h4>Pet Information</h4>
-                                <table class="table table-borderless">
-                                    <tr>
-                                        <td><strong>Species:</strong></td>
-                                        <td>{{ pet.species.capitalize() }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Breed:</strong></td>
-                                        <td>{{ pet.breed or 'Unknown' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Age:</strong></td>
-                                        <td>{{ pet.age or 'Unknown' }} years</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Health Status:</strong></td>
-                                        <td>{{ pet.health_status or 'Not specified' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>Status:</strong></td>
-                                        <td>
-                                            <span class="badge bg-{{ 'success' if pet.status == 'available' else 'secondary' }}">
-                                                {{ pet.status.capitalize() }}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </table>
-                                
-                                {% if pet.status == 'available' %}
-                                <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" class="btn btn-primary btn-lg">Adopt {{ pet.name }}</a>
-                                {% else %}
-                                <button class="btn btn-secondary btn-lg" disabled>Not Available</button>
-                                {% endif %}
-                            </div>
-                        </div>
+    <!-- Two Column Layout -->
+    <div class="row">
+        <!-- Left Column - Pet Image -->
+        <div class="col-lg-6 mb-4">
+            <div class="card rounded-4 border-0 shadow">
+                {% if pet.image_url %}
+                <img src="{{ pet.image_url }}" class="card-img-top rounded-top-4" alt="{{ pet.name }}" style="height: 400px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center rounded-top-4" style="height: 400px;">
+                    <span class="text-muted fs-1">🐾 No Image</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Right Column - Pet Details -->
+        <div class="col-lg-6 mb-4">
+            <div class="card rounded-4 border-0 shadow h-100">
+                <div class="card-body p-4">
+                    <h1 class="fw-bold mb-3">{{ pet.name }}</h1>
+                    
+                    <!-- Badges -->
+                    <div class="mb-3">
+                        {% if pet.species == 'dog' %}
+                        <span class="badge bg-primary me-2">Dog</span>
+                        {% elif pet.species == 'cat' %}
+                        <span class="badge bg-danger me-2">Cat</span>
+                        {% elif pet.species == 'bird' %}
+                        <span class="badge bg-success me-2">Bird</span>
+                        {% else %}
+                        <span class="badge bg-secondary me-2">Other</span>
+                        {% endif %}
                         
-                        {% if pet.description %}
-                        <div class="mt-4">
-                            <h4>About {{ pet.name }}</h4>
-                            <p>{{ pet.description }}</p>
-                        </div>
+                        {% if pet.status == 'available' %}
+                        <span class="badge bg-success">Available</span>
+                        {% else %}
+                        <span class="badge bg-secondary">Adopted</span>
                         {% endif %}
                     </div>
+
+                    <!-- Pet Details -->
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">Pet Information</h5>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="mb-2"><strong>Species:</strong> {{ pet.species.capitalize() }}</p>
+                                <p class="mb-2"><strong>Breed:</strong> {{ pet.breed or 'Mixed' }}</p>
+                                <p class="mb-2"><strong>Age:</strong> {{ pet.age or 'Unknown' }} years</p>
+                            </div>
+                            <div class="col-6">
+                                <p class="mb-2"><strong>Health Status:</strong> {{ pet.health_status or 'Not specified' }}</p>
+                                <p class="mb-2"><strong>Status:</strong> {{ pet.status.capitalize() }}</p>
+                                <p class="mb-2"><strong>Added:</strong> {{ pet.created_at.strftime('%B %d, %Y') }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    {% if pet.description %}
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">About {{ pet.name }}</h5>
+                        <p class="text-secondary">{{ pet.description }}</p>
+                    </div>
+                    {% endif %}
+
+                    <!-- CTA Button -->
+                    {% if pet.status == 'available' %}
+                    <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" class="btn btn-primary btn-lg w-100">Adopt Me 🐾</a>
+                    {% else %}
+                    <button class="btn btn-secondary btn-lg w-100" disabled>Not Available</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
