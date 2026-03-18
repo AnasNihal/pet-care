@@ -1,128 +1,115 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}
 
 {% block title %}Admin Dashboard - PawPal{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="admin-content">
-    <!-- Top Bar -->
-    <div class="bg-white shadow-sm p-4 mb-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="fw-bold mb-0">Dashboard</h2>
-            <div class="d-flex align-items-center">
-                <span class="text-secondary me-3">👤 {{ current_user.name }}</span>
-                <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                    <span class="text-white fw-bold">{{ current_user.name[0] }}</span>
-                </div>
+<!-- Stats Cards -->
+<div class="row mb-4">
+    <div class="col-md-3 mb-4">
+        <div class="stats-card border-blue">
+            <div class="stats-header">
+                <div class="stats-label">Total Pets</div>
+                <div class="stats-icon blue">🐾</div>
             </div>
+            <div class="stats-number">{{ total_pets }}</div>
+            <div class="stats-trend">↑ 12% vs last month</div>
         </div>
     </div>
-
-    <!-- Stats Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card border-0 rounded-4 shadow h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-primary bg-opacity-10 rounded-3 p-3 me-3">
-                            <span class="fs-3">🐾</span>
-                        </div>
-                        <div>
-                            <h3 class="fw-bold mb-0 text-primary">{{ total_pets }}</h3>
-                            <p class="text-secondary mb-0">Total Pets</p>
-                        </div>
-                    </div>
-                </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="stats-card border-green">
+            <div class="stats-header">
+                <div class="stats-label">Total Users</div>
+                <div class="stats-icon green">👥</div>
             </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card border-0 rounded-4 shadow h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-success bg-opacity-10 rounded-3 p-3 me-3">
-                            <span class="fs-3">👥</span>
-                        </div>
-                        <div>
-                            <h3 class="fw-bold mb-0 text-success">{{ total_users }}</h3>
-                            <p class="text-secondary mb-0">Total Users</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card border-0 rounded-4 shadow h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-warning bg-opacity-10 rounded-3 p-3 me-3">
-                            <span class="fs-3">⏰</span>
-                        </div>
-                        <div>
-                            <h3 class="fw-bold mb-0 text-warning">{{ pending_requests }}</h3>
-                            <p class="text-secondary mb-0">Pending Requests</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-3">
-            <div class="card border-0 rounded-4 shadow h-100">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-info bg-opacity-10 rounded-3 p-3 me-3">
-                            <span class="fs-3">✅</span>
-                        </div>
-                        <div>
-                            <h3 class="fw-bold mb-0 text-info">{{ approved_requests }}</h3>
-                            <p class="text-secondary mb-0">Approved Adoptions</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="stats-number">{{ total_users }}</div>
+            <div class="stats-trend">↑ 8% vs last month</div>
         </div>
     </div>
-
-    <!-- Recent Adoption Requests -->
-    <div class="card border-0 rounded-4 shadow">
-        <div class="card-body p-4">
-            <h4 class="fw-bold mb-4">Recent Adoption Requests</h4>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Pet Name</th>
-                            <th>Adopter Name</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Sample data - in real app this would come from database -->
-                        <tr>
-                            <td>Max</td>
-                            <td>John Doe</td>
-                            <td>Dec 15, 2024</td>
-                            <td><span class="badge bg-warning">Pending</span></td>
-                            <td>
-                                <button class="btn btn-success btn-sm rounded-3">Approve</button>
-                                <button class="btn btn-danger btn-sm rounded-3">Reject</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Bella</td>
-                            <td>Jane Smith</td>
-                            <td>Dec 14, 2024</td>
-                            <td><span class="badge bg-success">Approved</span></td>
-                            <td>
-                                <button class="btn btn-secondary btn-sm rounded-3" disabled>Processed</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    
+    <div class="col-md-3 mb-4">
+        <div class="stats-card border-yellow">
+            <div class="stats-header">
+                <div class="stats-label">Pending Requests</div>
+                <div class="stats-icon yellow">⏰</div>
             </div>
+            <div class="stats-number">{{ pending_requests }}</div>
+            <div class="stats-trend">3 new today</div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="stats-card border-purple">
+            <div class="stats-header">
+                <div class="stats-label">Approved Adoptions</div>
+                <div class="stats-icon purple">✅</div>
+            </div>
+            <div class="stats-number">{{ approved_requests }}</div>
+            <div class="stats-trend">↑ 15% vs last month</div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Adoption Requests -->
+<div class="card-custom">
+    <div class="card-body p-4">
+        <h4 class="fw-bold mb-4">Recent Adoption Requests</h4>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Pet Name</th>
+                        <th>Adopter Name</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in recent_requests %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if request.pet.image_url %}
+                                <img src="{{ request.pet.image_url }}" alt="{{ request.pet.name }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                {% else %}
+                                <div class="rounded-circle bg-light me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                    <span>🐾</span>
+                                </div>
+                                {% endif %}
+                                {{ request.pet.name }}
+                            </div>
+                        </td>
+                        <td>{{ request.user.name }}</td>
+                        <td>{{ request.created_at.strftime('%b %d, %Y') }}</td>
+                        <td>
+                            {% if request.status == 'pending' %}
+                            <span class="badge-pending">Pending</span>
+                            {% elif request.status == 'approved' %}
+                            <span class="badge-approved">Approved</span>
+                            {% elif request.status == 'rejected' %}
+                            <span class="badge-rejected">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                {% if request.status == 'pending' %}
+                                <a href="{{ url_for('admin.approve_request', request_id=request.id) }}" class="btn btn-sm btn-success-custom">Approve</a>
+                                <a href="{{ url_for('admin.reject_request', request_id=request.id) }}" class="btn btn-sm btn-danger-custom">Reject</a>
+                                {% else %}
+                                <button class="btn btn-sm btn-secondary" disabled>Processed</button>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center text-gray-500">No recent requests</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

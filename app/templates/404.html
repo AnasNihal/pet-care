@@ -3,20 +3,22 @@
 {% block title %}Page Not Found - PawPal{% endblock %}
 
 {% block content %}
-<div class="container vh-100 d-flex align-items-center justify-content-center" style="background-color: var(--bg-color);">
-    <div class="text-center">
-        <div class="fs-1 mb-4">🐾</div>
-        <h1 class="display-1 fw-bold text-primary mb-4">404</h1>
-        <h2 class="fw-bold mb-3">Oops! Page not found</h2>
-        <p class="text-secondary mb-4">The page you're looking for seems to have wandered off. Don't worry, even the best pets sometimes get lost!</p>
-        
-        <div class="mb-5">
-            <img src="https://placedog.net/300/300" alt="Lost Dog" class="img-fluid rounded-4 shadow">
+<div style="min-height: 100vh; background: var(--lavender-bg); display: flex; align-items: center; justify-content: center; position: relative;">
+    <!-- Background 404 -->
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 180px; font-weight: 900; opacity: 0.1; font-family: 'Playfair Display', serif; z-index: 1;">404</div>
+    
+    <!-- Content -->
+    <div style="position: relative; z-index: 2; text-align: center; max-width: 500px; padding: 0 20px;">
+        <div class="mb-4">
+            <span style="font-size: 80px;">🐕</span>
         </div>
-        
-        <div class="d-flex justify-content-center gap-3">
-            <a href="{{ url_for('main.index') }}" class="btn btn-primary">🏠 Go Home</a>
-            <a href="{{ url_for('user.dashboard') }}" class="btn btn-outline-primary">🐾 Browse Pets</a>
+        <h1 class="section-heading mb-3" style="font-size: 48px;">Page Not Found</h1>
+        <p class="text-gray-500 mb-4" style="font-size: 18px;">
+            Oops! The page you're looking for seems to have wandered off. Don't worry, our adorable pets are still here waiting for you!
+        </p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="{{ url_for('main.index') }}" class="btn-primary-custom">Go Home</a>
+            <a href="{{ url_for('user.dashboard') }}" class="btn-outline-custom">Browse Pets</a>
         </div>
     </div>
 </div>

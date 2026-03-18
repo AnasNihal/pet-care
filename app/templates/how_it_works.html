@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}How It Works - PawPal{% endblock %}
+
+{% block extra_css %}
+<style>
+.step-number-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+.step-big-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 100px;
+  font-weight: 900;
+  color: #E5E7EB;
+  line-height: 1;
+  flex-shrink: 0;
+  min-width: 100px;
+}
+.step-text {
+  flex: 1;
+  padding-top: 8px;
+}
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #0F1B2D;
+  margin-bottom: 12px;
+}
+.step-desc {
+  color: #6B7280;
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.step-features {
+  list-style: none;
+  padding: 0;
+}
+.step-features li {
+  color: #374151;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section style="background: var(--lavender-bg); padding: 100px 0;">
+    <div class="container text-center">
+        <div class="mb-4">
+            <span class="badge" style="background: var(--primary); color: var(--navy); padding: 8px 16px; font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600;">Simple Process</span>
+        </div>
+        <h1 class="section-heading mb-4">Adopt in 4 Easy Steps</h1>
+        <p class="text-gray-500 mb-0" style="font-size: 18px; max-width: 600px; margin: 0 auto;">
+            Our streamlined adoption process makes finding your perfect companion simple, transparent, and joyful. From browsing to bringing your pet home, we're here to guide you every step of the way.
+        </p>
+    </div>
+</section>
+
+<!-- Steps Detail -->
+<section style="background: white; padding: 90px 0;">
+    <div class="container">
+        <!-- Step 1 -->
+        <div class="row align-items-center mb-5 pb-5 step-row fade-in-up">
+            <div class="col-lg-6 step-content">
+                <div class="step-number-wrapper">
+                    <span class="step-big-number">01</span>
+                    <div class="step-text">
+                        <h3 class="step-title">🔍 Create Your Account</h3>
+                        <p class="step-desc">Sign up in seconds and tell us about yourself. It only takes a few minutes to create your profile and share your living situation.</p>
+                        <ul class="step-features">
+                            <li>✅ Free to register</li>
+                            <li>✅ Secure and private</li>
+                            <li>✅ Takes less than 2 minutes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 step-visual">
+                <div class="step-card-preview">
+                    <div style="background:#EEF1FF;border-radius:24px;padding:40px;text-align:center;font-size:64px;">
+                        🔍
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="row align-items-center mb-5 pb-5 step-row flex-lg-row-reverse fade-in-up">
+            <div class="col-lg-6 step-content">
+                <div class="step-number-wrapper">
+                    <span class="step-big-number">02</span>
+                    <div class="step-text">
+                        <h3 class="step-title">💌 Browse & Choose Your Pet</h3>
+                        <p class="step-desc">Explore our available pets using filters for species, age, size, and temperament. Each pet profile includes photos, health records, and personality information to help you find the perfect match.</p>
+                        <ul class="step-features">
+                            <li>✅ Advanced filtering options</li>
+                            <li>✅ Detailed pet profiles with photos</li>
+                            <li>✅ Health and behavior information</li>
+                            <li>✅ Save favorites for later</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 step-visual">
+                <div class="step-card-preview">
+                    <div style="background:#EEF1FF;border-radius:24px;padding:40px;text-align:center;font-size:64px;">
+                        💌
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="row align-items-center mb-5 pb-5 step-row fade-in-up">
+            <div class="col-lg-6 step-content">
+                <div class="step-number-wrapper">
+                    <span class="step-big-number">03</span>
+                    <div class="step-text">
+                        <h3 class="step-title">✅ Submit Adoption Request</h3>
+                        <p class="step-desc">Found your perfect match? Submit an adoption request with details about why you'd be a great pet parent. Our team reviews each application carefully to ensure the best outcome for both pet and family.</p>
+                        <ul class="step-features">
+                            <li>✅ Personal and household information</li>
+                            <li>✅ Pet care experience</li>
+                            <li>✅ Living situation details</li>
+                            <li>✅ Why you want this specific pet</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 step-visual">
+                <div class="step-card-preview">
+                    <div style="background:#EEF1FF;border-radius:24px;padding:40px;text-align:center;font-size:64px;">
+                        ✅
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="row align-items-center mb-5 pb-5 step-row flex-lg-row-reverse fade-in-up">
+            <div class="col-lg-6 step-content">
+                <div class="step-number-wrapper">
+                    <span class="step-big-number">04</span>
+                    <div class="step-text">
+                        <h3 class="step-title">🏠 Welcome Your New Pet Home</h3>
+                        <p class="step-desc">Once approved, we'll arrange a meet-and-greet and help you prepare for bringing your new family member home. We provide ongoing support to ensure a smooth transition for everyone.</p>
+                        <ul class="step-features">
+                            <li>✅ Meet-and-greet with the pet</li>
+                            <li>✅ Home preparation guidance</li>
+                            <li>✅ Adoption paperwork completion</li>
+                            <li>✅ Take your pet home!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 step-visual">
+                <div class="step-card-preview">
+                    <div style="background:#EEF1FF;border-radius:24px;padding:40px;text-align:center;font-size:64px;">
+                        🏠
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section style="background: var(--lavender-bg); padding: 80px 0;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-heading mb-4">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item mb-3" style="border: none; border-radius: var(--radius-lg); overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="background: white; font-weight: 600;">
+                                How long does the adoption process take?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body" style="background: white;">
+                                The entire process typically takes 3-7 days from application to bringing your pet home. Application review takes 24-48 hours, and we'll schedule meet-and-greets as soon as possible after approval.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3" style="border: none; border-radius: var(--radius-lg); overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="background: white; font-weight: 600;">
+                                Is there an adoption fee?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body" style="background: white;">
+                                Yes, adoption fees vary by pet type and age (typically $50-$300). This covers vaccinations, spaying/neutering, microchipping, and medical care the pet received while in our care.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3" style="border: none; border-radius: var(--radius-lg); overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background: white; font-weight: 600;">
+                                Can I return a pet if it doesn't work out?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body" style="background: white;">
+                                While we strive for perfect matches, we understand sometimes things don't work out. We have a 30-day return policy and will work with you to find a better fit or provide additional support.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3" style="border: none; border-radius: var(--radius-lg); overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" style="background: white; font-weight: 600;">
+                                Do you provide post-adoption support?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body" style="background: white;">
+                                Absolutely! We provide lifetime support including behavioral advice, veterinary referrals, training resources, and a community of fellow adopters. Our team is always here to help.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3" style="border: none; border-radius: var(--radius-lg); overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" style="background: white; font-weight: 600;">
+                                What documents do I need?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body" style="background: white;">
+                                You'll need a valid ID, proof of residence, and if renting, landlord approval. Some pets may require additional documentation based on local regulations.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item mb-3" style="border: none; border-radius: var(--radius-lg); overflow: hidden;">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6" style="background: white; font-weight: 600;">
+                                Can I adopt if I live in an apartment?
+                            </button>
+                        </h2>
+                        <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body" style="background: white;">
+                                Yes! Many of our pets are perfect for apartment living. We'll help you find pets that match your living situation and provide guidance on creating a happy home in any space.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Still Have Questions CTA -->
+<section style="background: var(--navy); padding: 80px 0;">
+    <div class="container text-center">
+        <h2 class="section-heading mb-3" style="color: white;">Still have questions? We're here to help.</h2>
+        <p class="mb-4" style="color: rgba(255,255,255,0.8); font-size: 18px;">
+            Our friendly team is ready to answer all your questions and guide you through the adoption process.
+        </p>
+        <a href="#" class="btn-primary-custom">Contact Us</a>
+    </div>
+</section>
+{% endblock %}

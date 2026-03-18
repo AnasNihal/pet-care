@@ -4,215 +4,364 @@
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero-section">
+<section style="background: var(--lavender-bg); min-height: 100vh; display: flex; align-items: center;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <div class="hero-tag">🐾 Welcome to PawPal</div>
-                <h1 class="hero-title">Your Pet's Safe and Joyful Haven</h1>
-                <p class="hero-subtitle">We're dedicated to giving your pets the care they deserve</p>
-                <div class="d-flex gap-3">
-                    <a href="{{ url_for('user.dashboard') }}" class="btn btn-primary">Browse Pets</a>
-                    <a href="#" class="btn btn-outline-primary">Learn More</a>
+                <div class="mb-4 fade-in-up">
+                    <span class="section-tag">🐾 Trusted by 1,000+ Families</span>
+                </div>
+                <h1 class="hero-heading mb-4 fade-in-up">
+                    Your Pet's Safe and <span style="text-decoration: underline wavy var(--primary); text-decoration-style: wavy;">Joyful</span> Haven
+                </h1>
+                <p class="text-gray-500 mb-4 fade-in-up" style="font-size: 16px;">
+                    We're dedicated to giving every pet love, care, and forever home they deserve. Join thousands of happy families.
+                </p>
+                <div class="d-flex gap-3 mb-4 fade-in-up">
+                    <a href="{{ url_for('user.dashboard') }}" class="btn-primary-custom">Browse Pets 🐾</a>
+                    <a href="{{ url_for('main.how_it_works') }}" class="btn-outline-custom">How It Works →</a>
+                </div>
+                <div class="d-flex gap-4 align-items-center fade-in-up">
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">✅</span>
+                        <span class="text-gray-500" style="font-size: 14px;">500+ Pets Adopted</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">⭐</span>
+                        <span class="text-gray-500" style="font-size: 14px;">4.9 Rating</span>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="me-2">🏠</span>
+                        <span class="text-gray-500" style="font-size: 14px;">80+ Shelters</span>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <img src="https://placedog.net/500/400" alt="Happy Dog" class="img-fluid rounded-4 shadow">
+            <div class="col-lg-6 position-relative fade-in-up">
+                <img src="https://placedog.net/600/500" alt="Happy Dog" class="img-fluid rounded-3" style="border-radius: var(--radius-lg);">
+                <div class="position-absolute" style="bottom: 20px; left: 20px;">
+                    <div class="card-custom p-3" style="background: white;">
+                        <div class="d-flex align-items-center">
+                            <span class="fs-4 me-2">🐾</span>
+                            <div>
+                                <div class="fw-bold">500+ Happy Adoptions</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="position-absolute" style="top: 20px; right: 20px;">
+                    <span class="badge" style="background: var(--primary); color: var(--navy); padding: 8px 16px; font-size: 13px; font-weight: 600;">New pets added weekly!</span>
+                </div>
             </div>
         </div>
     </div>
-    
-    <!-- SVG Wavy Divider -->
-    <div class="mt-5">
-        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0V120Z" fill="white"/>
-        </svg>
-    </div>
 </section>
+
+<!-- Wave Divider -->
+<div style="line-height:0;margin-bottom:-2px;">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" 
+       preserveAspectRatio="none" style="width:100%;display:block;">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" 
+          fill="#FFFFFF"/>
+  </svg>
+</div>
 
 <!-- Stats Bar -->
-<section class="py-5 bg-white">
+<section style="background: white; padding: 90px 0;">
     <div class="container">
         <div class="row text-center">
-            <div class="col-md-3">
-                <h2 class="fw-bold text-primary mb-2">500+</h2>
-                <p class="text-secondary">Pets Adopted</p>
+            <div class="col-md-3 fade-in-up">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="section-heading" style="font-size: 48px; margin-bottom: 8px;">500+</div>
+                    <div style="font-size: 14px; color: var(--gray-500);">Pets Adopted</div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <h2 class="fw-bold text-primary mb-2">1,000+</h2>
-                <p class="text-secondary">Happy Families</p>
+            <div class="col-md-3 border-start border-end fade-in-up">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="section-heading" style="font-size: 48px; margin-bottom: 8px;">1,200+</div>
+                    <div style="font-size: 14px; color: var(--gray-500);">Happy Families</div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <h2 class="fw-bold text-primary mb-2">80+</h2>
-                <p class="text-secondary">Shelters</p>
+            <div class="col-md-3 border-end fade-in-up">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="section-heading" style="font-size: 48px; margin-bottom: 8px;">80+</div>
+                    <div style="font-size: 14px; color: var(--gray-500);">Partner Shelters</div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <h2 class="fw-bold text-primary mb-2">2,000+</h2>
-                <p class="text-secondary">Reviews</p>
+            <div class="col-md-3 fade-in-up">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="section-heading" style="font-size: 48px; margin-bottom: 8px;">4.9★</div>
+                    <div style="font-size: 14px; color: var(--gray-500);">Average Rating</div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Why Choose Us -->
-<section class="py-5">
+<!-- Wave Divider -->
+<div style="line-height:0;margin-bottom:-2px;">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" 
+       preserveAspectRatio="none" style="width:100%;display:block;">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" 
+          fill="#EEF1FF"/>
+  </svg>
+</div>
+
+<!-- About Preview -->
+<section style="background: var(--lavender-bg); padding: 90px 0;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <div class="hero-tag">🌟 Why choose us</div>
-                <h2 class="fw-bold mb-4">Putting your pet's comfort and wellness first</h2>
-                <div class="mb-4">
-                    <div class="d-flex mb-3">
-                        <span class="fs-4 me-3">🏥</span>
+                <div class="mb-4 fade-in-up">
+                    <span class="section-tag">🌟 Why Choose Us</span>
+                </div>
+                <h2 class="section-heading mb-4 fade-in-up">Putting your pet's comfort and wellness first</h2>
+                <div class="mb-4 fade-in-up">
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="background: var(--primary); width: 48px; height: 48px; flex-shrink: 0;">
+                            <span class="fs-4">🏥</span>
+                        </div>
                         <div>
-                            <h5 class="fw-semibold">Professional Care</h5>
-                            <p class="text-secondary mb-0">Expert veterinarians and caregivers dedicated to your pet's health</p>
+                            <h5 class="fw-bold mb-2">Expert Veterinary Care</h5>
+                            <p class="text-gray-500 mb-0">Skilled compassionate vets dedicated to your pet's health</p>
                         </div>
                     </div>
-                    <div class="d-flex mb-3">
-                        <span class="fs-4 me-3">❤️</span>
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="background: var(--primary); width: 48px; height: 48px; flex-shrink: 0;">
+                            <span class="fs-4">✂️</span>
+                        </div>
                         <div>
-                            <h5 class="fw-semibold">Loving Environment</h5>
-                            <p class="text-secondary mb-0">Safe, comfortable spaces where pets can thrive and play</p>
+                            <h5 class="fw-bold mb-2">Professional Grooming</h5>
+                            <p class="text-gray-500 mb-0">Full grooming services to keep pets looking their best</p>
                         </div>
                     </div>
-                    <div class="d-flex mb-3">
-                        <span class="fs-4 me-3">🎯</span>
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="background: var(--primary); width: 48px; height: 48px; flex-shrink: 0;">
+                            <span class="fs-4">🎓</span>
+                        </div>
                         <div>
-                            <h5 class="fw-semibold">Personalized Attention</h5>
-                            <p class="text-secondary mb-0">Individual care plans tailored to each pet's unique needs</p>
+                            <h5 class="fw-bold mb-2">Certified Training</h5>
+                            <p class="text-gray-500 mb-0">Positive reinforcement methods for lasting results</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" style="background: var(--primary); width: 48px; height: 48px; flex-shrink: 0;">
+                            <span class="fs-4">💛</span>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-2">Lifetime Support</h5>
+                            <p class="text-gray-500 mb-0">We're here for you even after adoption</p>
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn btn-primary">Schedule a visit</a>
+                <a href="{{ url_for('main.about') }}" class="btn-primary-custom fade-in-up">Meet Our Team →</a>
             </div>
-            <div class="col-lg-6">
-                <div class="bg-white p-4 rounded-4 shadow" style="background-color: var(--bg-color);">
-                    <img src="https://placedog.net/450/350" alt="Happy Pets" class="img-fluid rounded-3">
+            <div class="col-lg-6 fade-in-up">
+                <div class="position-relative">
+                    <div style="background: white; border-radius: var(--radius-lg); padding: 20px;">
+                        <img src="https://placedog.net/550/450" alt="Happy Pets" class="img-fluid rounded-3">
+                    </div>
+                    <div class="position-absolute" style="bottom: 20px; left: 20px;">
+                        <div class="card-custom p-3" style="background: white; max-width: 250px;">
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="text-warning me-2">⭐⭐⭐⭐⭐</span>
+                            </div>
+                            <p class="mb-0 text-gray-700" style="font-size: 14px;">"Amazing experience! Found my perfect companion."</p>
+                            <p class="mb-0 text-gray-500" style="font-size: 12px;">— Sarah M.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Wave Divider -->
+<div style="line-height:0;margin-bottom:-2px;">
+  <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" 
+       preserveAspectRatio="none" style="width:100%;display:block;">
+    <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" 
+          fill="#FFFFFF"/>
+  </svg>
+</div>
+
 <!-- Featured Pets -->
-<section class="py-5 bg-white">
+<section style="background: var(--lavender-bg); padding: 80px 0;">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="fw-bold">Meet Our Pets</h2>
-            <p class="text-secondary">Find your perfect companion among our adorable pets</p>
+            <div class="mb-3">
+                <span class="badge" style="background: var(--primary); color: var(--navy); padding: 8px 16px; font-size: 13px; letter-spacing: 0.5px; text-transform: uppercase; font-weight: 600;">🐾 Available for Adoption</span>
+            </div>
+            <h2 class="section-heading mb-3">Meet Some of Our Pets</h2>
+            <p class="text-gray-500">Find your perfect companion among our adorable pets</p>
         </div>
 
-        <div class="row">
+        <div class="row g-4">
             {% for pet in featured_pets %}
-            <div class="col-md-4 mb-4">
-                <div class="card pet-card h-100">
-                    {% if pet.image_url %}
-                    <img src="{{ pet.image_url }}" class="card-img-top" alt="{{ pet.name }}">
-                    {% else %}
-                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                        <span class="text-muted fs-4">🐾 No Image</span>
+            <div class="col-md-4 mb-4 d-flex">
+                <div class="pet-card w-100">
+                    <div class="pet-card-image-wrapper">
+                        <img src="{{ pet.image_url or 'https://placedog.net/400/300?random=' + pet.id|string }}" 
+                             alt="{{ pet.name }}">
+                        <!-- Species badge overlaid on image -->
+                        <span class="position-absolute top-0 end-0 m-2 badge-species">
+                            {{ pet.species }}
+                        </span>
                     </div>
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title fw-semibold">{{ pet.name }}</h5>
-                        <div class="mb-2">
-                            {% if pet.species == 'dog' %}
-                            <span class="badge bg-primary">Dog</span>
-                            {% elif pet.species == 'cat' %}
-                            <span class="badge bg-danger">Cat</span>
-                            {% elif pet.species == 'bird' %}
-                            <span class="badge bg-success">Bird</span>
-                            {% else %}
-                            <span class="badge bg-secondary">Other</span>
-                            {% endif %}
-                        </div>
-                        <p class="text-secondary mb-2">
-                            <strong>Breed:</strong> {{ pet.breed or 'Mixed' }}<br>
-                            <strong>Age:</strong> {{ pet.age or 'Unknown' }} years
-                        </p>
-                        {% if pet.description %}
-                        <p class="text-muted small">{{ pet.description[:80] }}{% if pet.description|length > 80 %}...{% endif %}</p>
+                    <div class="pet-card-body">
+                        <h5 class="pet-name">{{ pet.name }}</h5>
+                        <p class="pet-meta">🐕 {{ pet.breed or 'Mixed' }} &nbsp;|&nbsp; 🎂 {{ pet.age or 'Unknown' }} yrs</p>
+                        {% if pet.health_status %}
+                        <p class="pet-health">{{ pet.health_status }}</p>
                         {% endif %}
-                        <a href="{{ url_for('auth.login') }}" class="btn btn-primary w-100">Adopt Me 🐾</a>
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" 
+                               class="btn btn-outline-dark btn-sm rounded-pill flex-fill">
+                                View Details
+                            </a>
+                            <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" 
+                               class="btn btn-primary-yellow btn-sm rounded-pill flex-fill">
+                                Adopt 💛
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
             {% else %}
             <div class="col-12">
                 <div class="text-center py-5">
-                    <h3>No featured pets available at the moment</h3>
-                    <p class="text-secondary">Please check back later for adorable pets looking for homes!</p>
+                    <h3 class="section-heading mb-3">No pets available right now</h3>
+                    <p class="text-gray-500">Check back soon for adorable pets looking for homes!</p>
                 </div>
             </div>
             {% endfor %}
         </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ url_for('user.dashboard') }}" class="btn-outline-custom">View All Pets →</a>
+        </div>
     </div>
 </section>
 
-<!-- Services Preview -->
-<section class="py-5">
+<!-- How It Works Preview -->
+<section style="background: white; padding: 80px 0;">
     <div class="container">
         <div class="text-center mb-5">
-            <h2 class="fw-bold">Compassion and quality in every moment of care</h2>
-            <p class="text-secondary">Comprehensive services to keep your pet healthy and happy</p>
+            <h2 class="section-heading mb-3">Adopting is Simple & Easy</h2>
+            <p class="text-gray-500">Get your new best friend in 4 simple steps</p>
         </div>
 
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100" style="background-color: #F9FAFB;">
-                    <div class="card-body text-center">
-                        <div class="fs-2 mb-3">🏥</div>
-                        <h5 class="fw-semibold mb-2">Tailored Wellness Plans</h5>
-                        <p class="text-secondary small">Custom health plans designed for your pet's specific needs and lifestyle</p>
+        <div class="row">
+            <div class="col-md-3 text-center mb-4">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" style="background: var(--primary); width: 80px; height: 80px;">
+                        <span class="fs-2">🔍</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Browse Pets</h5>
+                    <p class="text-gray-500" style="font-size: 14px;">Explore our available pets and find your perfect match</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" style="background: var(--primary); width: 80px; height: 80px;">
+                        <span class="fs-2">💌</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Submit Request</h5>
+                    <p class="text-gray-500" style="font-size: 14px;">Fill out our simple adoption application form</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" style="background: var(--primary); width: 80px; height: 80px;">
+                        <span class="fs-2">✅</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Get Approved</h5>
+                    <p class="text-gray-500" style="font-size: 14px;">Our team reviews and approves your application</p>
+                </div>
+            </div>
+            <div class="col-md-3 text-center mb-4">
+                <div class="d-flex flex-column align-items-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" style="background: var(--primary); width: 80px; height: 80px;">
+                        <span class="fs-2">🏠</span>
+                    </div>
+                    <h5 class="fw-bold mb-2">Take Home</h5>
+                    <p class="text-gray-500" style="font-size: 14px;">Welcome your new family member home</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ url_for('main.how_it_works') }}" class="btn-primary-custom">Start Your Journey →</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section style="background: var(--lavender-bg); padding: 80px 0;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-heading mb-3">What Our Families Say 💛</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card-custom p-4" style="border-radius: var(--radius-lg);">
+                    <div class="mb-3">
+                        <span style="font-size: 80px; opacity: 0.3; line-height: 1;">"</span>
+                    </div>
+                    <p class="mb-3" style="font-style: italic;">PawPal made adopting our dog so easy! The team was supportive throughout the entire process.</p>
+                    <div class="mb-2">
+                        <span class="text-warning">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div>
+                        <strong>Emily Johnson</strong> - Adopted Max
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100" style="background-color: #F9FAFB;">
-                    <div class="card-body text-center">
-                        <div class="fs-2 mb-3">✂️</div>
-                        <h5 class="fw-semibold mb-2">Professional Grooming</h5>
-                        <p class="text-secondary small">Expert grooming services to keep your pet looking and feeling their best</p>
+            <div class="col-md-4 mb-4">
+                <div class="card-custom p-4" style="border-radius: var(--radius-lg);">
+                    <div class="mb-3">
+                        <span style="font-size: 80px; opacity: 0.3; line-height: 1;">"</span>
+                    </div>
+                    <p class="mb-3" style="font-style: italic;">Found my perfect companion! The adoption process was smooth and the follow-up care is amazing.</p>
+                    <div class="mb-2">
+                        <span class="text-warning">⭐⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div>
+                        <strong>Michael Chen</strong> - Adopted Luna
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100" style="background-color: #F9FAFB;">
-                    <div class="card-body text-center">
-                        <div class="fs-2 mb-3">🥗</div>
-                        <h5 class="fw-semibold mb-2">Nutritional Guidance</h5>
-                        <p class="text-secondary small">Expert advice on diet and nutrition for optimal pet health</p>
+            <div class="col-md-4 mb-4">
+                <div class="card-custom p-4" style="border-radius: var(--radius-lg);">
+                    <div class="mb-3">
+                        <span style="font-size: 80px; opacity: 0.3; line-height: 1;">"</span>
+                    </div>
+                    <p class="mb-3" style="font-style: italic;">The best decision I ever made! PawPal connected me with the sweetest cat.</p>
+                    <div class="mb-2">
+                        <span class="text-warning">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <div>
+                        <strong>Sarah Williams</strong> - Adopted Whiskers
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card h-100" style="background-color: #F9FAFB;">
-                    <div class="card-body text-center">
-                        <div class="fs-2 mb-3">�</div>
-                        <h5 class="fw-semibold mb-2">24/7 Support</h5>
-                        <p class="text-secondary small">Round-the-clock assistance for any pet care emergencies</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100" style="background-color: #F9FAFB;">
-                    <div class="card-body text-center">
-                        <div class="fs-2 mb-3">🎓</div>
-                        <h5 class="fw-semibold mb-2">Training Programs</h5>
-                        <p class="text-secondary small">Professional training to help your pet learn and grow</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100" style="background-color: #F9FAFB;">
-                    <div class="card-body text-center">
-                        <div class="fs-2 mb-3">🦷</div>
-                        <h5 class="fw-semibold mb-2">Dental Care</h5>
-                        <p class="text-secondary small">Complete dental services for optimal oral health</p>
-                    </div>
-                </div>
-            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Banner -->
+<section style="background: var(--navy); padding: 80px 0; position: relative; overflow: hidden;">
+    <div class="container text-center position-relative">
+        <span style="position: absolute; top: 20px; left: 50px; font-size: 40px; opacity: 0.1;">🐾</span>
+        <span style="position: absolute; bottom: 20px; right: 50px; font-size: 40px; opacity: 0.1;">🐾</span>
+        <span style="position: absolute; top: 50%; left: 100px; font-size: 30px; opacity: 0.1;">🐾</span>
+        <span style="position: absolute; bottom: 50px; left: 200px; font-size: 35px; opacity: 0.1;">🐾</span>
+        
+        <h2 class="section-heading mb-3" style="color: white;">Ready to Find Your Perfect Pet?</h2>
+        <p class="mb-4" style="color: rgba(255,255,255,0.8);">Start your adoption journey today and give a pet their forever home</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('user.dashboard') }}" class="btn-primary-custom">Browse Pets</a>
+            <a href="#" class="btn-outline-custom" style="border-color: white; color: white;">Contact Us</a>
         </div>
     </div>
 </section>

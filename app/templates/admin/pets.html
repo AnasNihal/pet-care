@@ -1,21 +1,20 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}
 
-{% block title %}Pets Management{% endblock %}
-
+{% block title %}Pets Management - PawPal{% endblock %}
 {% block page_title %}Pets Management{% endblock %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3>All Pets</h3>
-    <a href="{{ url_for('admin.add_pet') }}" class="btn btn-primary">
+    <h3 class="fw-bold">All Pets</h3>
+    <a href="{{ url_for('admin.add_pet') }}" class="btn-primary-custom">
         ➕ Add New Pet
     </a>
 </div>
 
-<div class="card shadow">
-    <div class="card-body">
+<div class="card-custom">
+    <div class="card-body p-4">
         <div class="table-responsive">
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -32,26 +31,53 @@
                     {% for pet in pets %}
                     <tr>
                         <td>{{ pet.id }}</td>
-                        <td>{{ pet.name }}</td>
-                        <td>{{ pet.species.capitalize() }}</td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if pet.image_url %}
+                                <img src="{{ pet.image_url }}" alt="{{ pet.name }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+                                {% else %}
+                                <div class="rounded-circle bg-light me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                    <span>🐾</span>
+                                </div>
+                                {% endif %}
+                                {{ pet.name }}
+                            </div>
+                        </td>
+                        <td>
+                            {% if pet.species == 'dog' %}
+                            <span class="badge-dog">Dog</span>
+                            {% elif pet.species == 'cat' %}
+                            <span class="badge-cat">Cat</span>
+                            {% elif pet.species == 'bird' %}
+                            <span class="badge-bird">Bird</span>
+                            {% else %}
+                            <span class="badge-other">Other</span>
+                            {% endif %}
+                        </td>
                         <td>{{ pet.breed or 'N/A' }}</td>
                         <td>{{ pet.age or 'N/A' }}</td>
                         <td>
-                            <span class="badge bg-{{ 'success' if pet.status == 'available' else 'secondary' }}">
-                                {{ pet.status.capitalize() }}
-                            </span>
+                            {% if pet.status == 'available' %}
+                            <span class="badge-available">Available</span>
+                            {% elif pet.status == 'adopted' %}
+                            <span class="badge-adopted">Adopted</span>
+                            {% else %}
+                            <span class="badge-other">{{ pet.status.capitalize() }}</span>
+                            {% endif %}
                         </td>
                         <td>{{ pet.health_status or 'N/A' }}</td>
                         <td>
-                            <a href="{{ url_for('admin.edit_pet', pet_id=pet.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-                            <form method="POST" action="{{ url_for('admin.delete_pet', pet_id=pet.id) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete {{ pet.name }}?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-                            </form>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('admin.edit_pet', pet_id=pet.id) }}" class="btn btn-sm btn-outline-custom">Edit</a>
+                                <form method="POST" action="{{ url_for('admin.delete_pet', pet_id=pet.id) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete {{ pet.name }}?')">
+                                    <button type="submit" class="btn btn-sm btn-danger-custom">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     {% else %}
                     <tr>
-                        <td colspan="8" class="text-center">No pets found</td>
+                        <td colspan="8" class="text-center text-gray-500">No pets found</td>
                     </tr>
                     {% endfor %}
                 </tbody>

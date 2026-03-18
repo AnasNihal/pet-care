@@ -22,33 +22,23 @@ def pet_detail(pet_id):
 def adopt_pet(pet_id):
     pet = Pet.query.get_or_404(pet_id)
     
-    # Check if pet is available
-    if pet.status != 'available':
-        flash('This pet is no longer available for adoption', 'error')
-        return redirect(url_for('user.dashboard'))
-    
-    # Check if user has already applied for this pet
-    existing_request = AdoptionRequest.query.filter_by(
-        user_id=current_user.id, 
-        pet_id=pet_id
-    ).first()
-    
-    if existing_request:
-        flash('You have already submitted an adoption request for this pet', 'error')
-        return redirect(url_for('user.my_requests'))
-    
     if request.method == 'POST':
-        message = request.form.get('message')
+        # Check if user already has a pending request for this pet
+        existing_request = AdoptionRequest.query.filter_by(
+            user_id=current_user.id, 
+            pet_id=pet.id, 
+            status='pending'
+        ).first()
         
-        if not message:
-            flash('Please provide a message explaining why you want to adopt this pet', 'error')
-            return render_template('user/adopt_pet.html', pet=pet)
+        if existing_request:
+            flash('You already have a pending adoption request for this pet.', 'error')
+            return redirect(url_for('user.pet_detail', pet_id=pet.id))
         
-        # Create adoption request
+        # Create new adoption request
         adoption_request = AdoptionRequest(
             user_id=current_user.id,
-            pet_id=pet_id,
-            message=message,
+            pet_id=pet.id,
+            message=request.form.get('message', ''),
             status='pending'
         )
         
@@ -60,12 +50,10 @@ def adopt_pet(pet_id):
     
     return render_template('user/adopt_pet.html', pet=pet)
 
-@user.route('/my-requests')
+@user.route('/requests')
 @login_required
 def my_requests():
-    requests = AdoptionRequest.query.filter_by(user_id=current_user.id).order_by(
-        AdoptionRequest.created_at.desc()
-    ).all()
+    requests = AdoptionRequest.query.filter_by(user_id=current_user.id).order_by(AdoptionRequest.created_at.desc()).all()
     return render_template('user/my_requests.html', requests=requests)
 
 @user.route('/services')
@@ -73,3 +61,26 @@ def my_requests():
 def services():
     services = PetService.query.all()
     return render_template('user/services.html', services=services)
+
+@user.route('/profile')
+@login_required
+def profile():
+    requests = AdoptionRequest.query.filter_by(user_id=current_user.id).order_by(AdoptionRequest.created_at.desc()).all()
+    return render_template('user/profile.html', requests=requests)
+
+@user.route('/profile/update', methods=['POST'])
+@login_required
+def update_profile():
+    if request.method == 'POST':
+        # Update name and email
+        current_user.name = request.form.get('name', current_user.name)
+        current_user.email = request.form.get('email', current_user.email)
+        
+        # Update password if provided
+        new_password = request.form.get('new_password')
+        if new_password:
+            current_user.set_password(new_password)
+        
+        db.session.commit()
+        flash('Profile updated successfully!', 'success')
+        return redirect(url_for('user.profile'))

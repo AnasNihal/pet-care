@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - PawPal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-4 mb-4">
+            <div class="card-custom p-4" style="border-radius: var(--radius-lg);">
+                <div class="text-center">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="background: var(--navy); width: 100px; height: 100px;">
+                        <span class="text-white" style="font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700;">{{ current_user.name[0].upper() }}</span>
+                    </div>
+                    <h3 class="fw-bold mb-2" style="font-family: 'Playfair Display', serif; font-size: 24px;">{{ current_user.name }}</h3>
+                    <p class="text-gray-500 mb-2">{{ current_user.email }}</p>
+                    <div class="mb-3">
+                        {% if current_user.role == 'admin' %}
+                        <span class="badge" style="background: #8B5CF6; color: white; padding: 6px 12px; font-size: 12px; font-weight: 600;">Admin</span>
+                        {% else %}
+                        <span class="badge" style="background: #3B82F6; color: white; padding: 6px 12px; font-size: 12px; font-weight: 600;">User</span>
+                        {% endif %}
+                    </div>
+                    <p class="text-gray-500 mb-3" style="font-size: 14px;">Member since {{ current_user.created_at.strftime('%B %Y') if current_user.created_at else 'Unknown' }}</p>
+                    <a href="#" class="btn-primary-custom" style="width: 100%;" onclick="document.getElementById('editProfileForm').scrollIntoView({behavior: 'smooth'});">Edit Profile</a>
+                    
+                    <hr class="my-4" style="border-color: var(--gray-200);">
+                    
+                    <!-- Quick Stats -->
+                    <div class="text-start">
+                        <h5 class="fw-bold mb-3">Quick Stats</h5>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-500" style="font-size: 14px;">📋 Total Requests</span>
+                            <span class="fw-bold">{{ requests|length }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-gray-500" style="font-size: 14px;">✅ Approved</span>
+                            <span class="fw-bold">{{ requests|selectattr('status', 'equalto', 'approved')|list|length }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-gray-500" style="font-size: 14px;">⏳ Pending</span>
+                            <span class="fw-bold">{{ requests|selectattr('status', 'equalto', 'pending')|list|length }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Main Content -->
+        <div class="col-md-8">
+            <div class="card-custom p-4" style="border-radius: var(--radius-lg);">
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-4" id="profileTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="requests-tab" data-bs-toggle="tab" data-bs-target="#requests" type="button" role="tab">My Requests</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button" role="tab">Account Settings</button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="profileTabContent">
+                    <!-- My Requests Tab -->
+                    <div class="tab-pane fade show active" id="requests" role="tabpanel">
+                        {% if requests %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Pet</th>
+                                        <th>Species</th>
+                                        <th>Submitted Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for request in requests %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {% if request.pet.image_url %}
+                                                <img src="{{ request.pet.image_url }}" alt="{{ request.pet.name }}" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover;">
+                                                {% else %}
+                                                <div class="rounded-circle bg-light me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                    <span>🐾</span>
+                                                </div>
+                                                {% endif %}
+                                                <div>
+                                                    <div class="fw-bold">{{ request.pet.name }}</div>
+                                                    <div class="text-gray-500" style="font-size: 12px;">{{ request.pet.breed or 'Mixed' }}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {% if request.pet.species == 'dog' %}
+                                            <span class="badge-dog">Dog</span>
+                                            {% elif request.pet.species == 'cat' %}
+                                            <span class="badge-cat">Cat</span>
+                                            {% elif request.pet.species == 'bird' %}
+                                            <span class="badge-bird">Bird</span>
+                                            {% else %}
+                                            <span class="badge-other">Other</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ request.created_at.strftime('%b %d, %Y') }}</td>
+                                        <td>
+                                            {% if request.status == 'pending' %}
+                                            <span class="badge-pending">Pending</span>
+                                            {% elif request.status == 'approved' %}
+                                            <span class="badge-approved">Approved</span>
+                                            {% elif request.status == 'rejected' %}
+                                            <span class="badge-rejected">Rejected</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('user.pet_detail', pet_id=request.pet.id) }}" class="btn btn-sm btn-outline-custom">View Pet</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="text-center py-5">
+                            <div class="mb-3">
+                                <span style="font-size: 48px;">📋</span>
+                            </div>
+                            <h5 class="fw-bold mb-2">No adoption requests yet</h5>
+                            <p class="text-gray-500 mb-4">Start your journey by browsing our available pets and submitting your first adoption request.</p>
+                            <a href="{{ url_for('user.dashboard') }}" class="btn-primary-custom">Browse Pets</a>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Account Settings Tab -->
+                    <div class="tab-pane fade" id="settings" role="tabpanel">
+                        <form method="POST" action="{{ url_for('user.update_profile') }}" id="editProfileForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label fw-bold">Full Name</label>
+                                    <input type="text" class="form-control form-control-custom" id="name" name="name" value="{{ current_user.name }}" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label fw-bold">Email Address</label>
+                                    <input type="email" class="form-control form-control-custom" id="email" name="email" value="{{ current_user.email }}" required>
+                                </div>
+                            </div>
+
+                            <hr class="my-4" style="border-color: var(--gray-200);">
+                            
+                            <h5 class="fw-bold mb-3">Change Password</h5>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="current_password" class="form-label fw-bold">Current Password</label>
+                                    <input type="password" class="form-control form-control-custom" id="current_password" name="current_password">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="new_password" class="form-label fw-bold">New Password</label>
+                                    <input type="password" class="form-control form-control-custom" id="new_password" name="new_password">
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="confirm_password" class="form-label fw-bold">Confirm New Password</label>
+                                    <input type="password" class="form-control form-control-custom" id="confirm_password" name="confirm_password">
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn-primary-custom">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password confirmation validation
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const newPassword = document.getElementById('new_password').value;
+    const confirmPassword = this.value;
+    
+    if (newPassword && confirmPassword && newPassword !== confirmPassword) {
+        this.setCustomValidity('Passwords do not match');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+
+document.getElementById('new_password').addEventListener('input', function() {
+    const confirmPassword = document.getElementById('confirm_password').value;
+    const newPassword = this.value;
+    
+    if (newPassword && confirmPassword && newPassword !== confirmPassword) {
+        document.getElementById('confirm_password').setCustomValidity('Passwords do not match');
+    } else {
+        document.getElementById('confirm_password').setCustomValidity('');
+    }
+});
+</script>
+{% endblock %}

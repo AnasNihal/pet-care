@@ -22,41 +22,34 @@
     </div>
 
     <!-- Pet Cards Grid -->
-    <div class="row" id="pets-grid">
+    <div class="row g-4" id="pets-grid">
         {% for pet in pets %}
-        <div class="col-md-4 mb-4 pet-item" data-species="{{ pet.species }}">
-            <div class="card pet-card h-100">
-                {% if pet.image_url %}
-                <img src="{{ pet.image_url }}" class="card-img-top" alt="{{ pet.name }}">
-                {% else %}
-                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
-                    <span class="text-muted fs-4">🐾 No Image</span>
+        <div class="col-md-4 mb-4 d-flex pet-item" data-species="{{ pet.species }}">
+            <div class="pet-card w-100">
+                <div class="pet-card-image-wrapper">
+                    <img src="{{ pet.image_url or 'https://placedog.net/400/300?random=' + pet.id|string }}" 
+                         alt="{{ pet.name }}">
+                    <!-- Species badge overlaid on image -->
+                    <span class="position-absolute top-0 end-0 m-2 badge-species">
+                        {{ pet.species }}
+                    </span>
                 </div>
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title fw-semibold">{{ pet.name }}</h5>
-                    <div class="mb-2">
-                        {% if pet.species == 'dog' %}
-                        <span class="badge bg-primary">Dog</span>
-                        {% elif pet.species == 'cat' %}
-                        <span class="badge bg-danger">Cat</span>
-                        {% elif pet.species == 'bird' %}
-                        <span class="badge bg-success">Bird</span>
-                        {% else %}
-                        <span class="badge bg-secondary">Other</span>
-                        {% endif %}
-                    </div>
-                    <p class="text-secondary mb-2">
-                        <strong>Breed:</strong> {{ pet.breed or 'Mixed' }}<br>
-                        <strong>Age:</strong> {{ pet.age or 'Unknown' }} years
-                    </p>
+                <div class="pet-card-body">
+                    <h5 class="pet-name">{{ pet.name }}</h5>
+                    <p class="pet-meta">🐕 {{ pet.breed or 'Mixed' }} &nbsp;|&nbsp; 🎂 {{ pet.age or 'Unknown' }} yrs</p>
                     {% if pet.health_status %}
-                    <p class="text-muted small mb-3">
-                        <strong>Health:</strong> {{ pet.health_status }}
-                    </p>
+                    <p class="pet-health">{{ pet.health_status }}</p>
                     {% endif %}
-                    <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" class="btn btn-outline-primary w-100 mb-2">View Details</a>
-                    <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" class="btn btn-primary w-100">Adopt Me</a>
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{{ url_for('user.pet_detail', pet_id=pet.id) }}" 
+                           class="btn btn-outline-dark btn-sm rounded-pill flex-fill">
+                            View Details
+                        </a>
+                        <a href="{{ url_for('user.adopt_pet', pet_id=pet.id) }}" 
+                           class="btn btn-primary-yellow btn-sm rounded-pill flex-fill">
+                            Adopt 💛
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
