@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Adoption Requests{% endblock %}
+
+{% block page_title %}Adoption Requests{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Pet</th>
+                        <th>Request Date</th>
+                        <th>Status</th>
+                        <th>Message</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in requests %}
+                    <tr>
+                        <td>{{ request.id }}</td>
+                        <td>{{ request.user.name }}<br><small class="text-muted">{{ request.user.email }}</small></td>
+                        <td>{{ request.pet.name }}<br><small class="text-muted">{{ request.pet.species.capitalize() }}</small></td>
+                        <td>{{ request.created_at.strftime('%B %d, %Y') }}</td>
+                        <td>
+                            <span class="badge bg-{{ 
+                                'warning' if request.status == 'pending' 
+                                else 'success' if request.status == 'approved' 
+                                else 'danger' }}">
+                                {{ request.status.capitalize() }}
+                            </span>
+                        </td>
+                        <td>
+                            <small>{{ request.message[:50] }}{% if request.message|length > 50 %}...{% endif %}</small>
+                        </td>
+                        <td>
+                            {% if request.status == 'pending' %}
+                            <form method="POST" action="{{ url_for('admin.update_request', request_id=request.id) }}" class="d-inline">
+                                <input type="hidden" name="status" value="approved">
+                                <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Approve this adoption request?')">Approve</button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin.update_request', request_id=request.id) }}" class="d-inline">
+                                <input type="hidden" name="status" value="rejected">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Reject this adoption request?')">Reject</button>
+                            </form>
+                            {% else %}
+                            <span class="text-muted">Processed</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center">No adoption requests found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

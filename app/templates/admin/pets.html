@@ -1,0 +1,62 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Pets Management{% endblock %}
+
+{% block page_title %}Pets Management{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>All Pets</h3>
+    <a href="{{ url_for('admin.add_pet') }}" class="btn btn-primary">
+        ➕ Add New Pet
+    </a>
+</div>
+
+<div class="card shadow">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Species</th>
+                        <th>Breed</th>
+                        <th>Age</th>
+                        <th>Status</th>
+                        <th>Health Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pet in pets %}
+                    <tr>
+                        <td>{{ pet.id }}</td>
+                        <td>{{ pet.name }}</td>
+                        <td>{{ pet.species.capitalize() }}</td>
+                        <td>{{ pet.breed or 'N/A' }}</td>
+                        <td>{{ pet.age or 'N/A' }}</td>
+                        <td>
+                            <span class="badge bg-{{ 'success' if pet.status == 'available' else 'secondary' }}">
+                                {{ pet.status.capitalize() }}
+                            </span>
+                        </td>
+                        <td>{{ pet.health_status or 'N/A' }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.edit_pet', pet_id=pet.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <form method="POST" action="{{ url_for('admin.delete_pet', pet_id=pet.id) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete {{ pet.name }}?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="text-center">No pets found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
