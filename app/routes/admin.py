@@ -176,3 +176,29 @@ def add_service():
 def services():
     services = PetService.query.all()
     return render_template('admin/services.html', services=services)
+
+@admin.route('/services/edit/<int:service_id>', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def edit_service(service_id):
+    service = PetService.query.get_or_404(service_id)
+    if request.method == 'POST':
+        service.name = request.form.get('name')
+        service.service_type = request.form.get('service_type')
+        service.description = request.form.get('description')
+        service.contact = request.form.get('contact')
+        service.location = request.form.get('location')
+        db.session.commit()
+        flash('Service updated successfully!', 'success')
+        return redirect(url_for('admin.services'))
+    return render_template('admin/edit_service.html', service=service)
+
+@admin.route('/services/delete/<int:service_id>', methods=['POST'])
+@login_required
+@admin_required
+def delete_service(service_id):
+    service = PetService.query.get_or_404(service_id)
+    db.session.delete(service)
+    db.session.commit()
+    flash('Service deleted successfully!', 'success')
+    return redirect(url_for('admin.services'))

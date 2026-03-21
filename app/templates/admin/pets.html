@@ -5,84 +5,100 @@
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold">All Pets</h3>
-    <a href="{{ url_for('admin.add_pet') }}" class="btn-primary-custom">
-        ➕ Add New Pet
-    </a>
+  <div>
+    <h4 style="font-family:'Playfair Display',serif;
+               color:#0F1B2D;font-weight:700;margin:0;">
+      All Pets
+    </h4>
+    <p style="color:#6B7280;font-size:14px;margin:4px 0 0;">
+      Manage all pets in the system
+    </p>
+  </div>
+  <a href="{{ url_for('admin.add_pet') }}" class="btn" style="background: #0F1B2D; color: white; border: none; border-radius: 8px; padding: 8px 16px; font-weight: 500;">
+    ➕ Add New Pet
+  </a>
 </div>
 
-<div class="card-custom">
-    <div class="card-body p-4">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Species</th>
-                        <th>Breed</th>
-                        <th>Age</th>
-                        <th>Status</th>
-                        <th>Health Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for pet in pets %}
-                    <tr>
-                        <td>{{ pet.id }}</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                {% if pet.image_url %}
-                                <img src="{{ pet.image_url }}" alt="{{ pet.name }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
-                                {% else %}
-                                <div class="rounded-circle bg-light me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
-                                    <span>🐾</span>
-                                </div>
-                                {% endif %}
-                                {{ pet.name }}
-                            </div>
-                        </td>
-                        <td>
-                            {% if pet.species == 'dog' %}
-                            <span class="badge-dog">Dog</span>
-                            {% elif pet.species == 'cat' %}
-                            <span class="badge-cat">Cat</span>
-                            {% elif pet.species == 'bird' %}
-                            <span class="badge-bird">Bird</span>
-                            {% else %}
-                            <span class="badge-other">Other</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ pet.breed or 'N/A' }}</td>
-                        <td>{{ pet.age or 'N/A' }}</td>
-                        <td>
-                            {% if pet.status == 'available' %}
-                            <span class="badge-available">Available</span>
-                            {% elif pet.status == 'adopted' %}
-                            <span class="badge-adopted">Adopted</span>
-                            {% else %}
-                            <span class="badge-other">{{ pet.status.capitalize() }}</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ pet.health_status or 'N/A' }}</td>
-                        <td>
-                            <div class="d-flex gap-2">
-                                <a href="{{ url_for('admin.edit_pet', pet_id=pet.id) }}" class="btn btn-sm btn-outline-custom">Edit</a>
-                                <form method="POST" action="{{ url_for('admin.delete_pet', pet_id=pet.id) }}" class="d-inline" onsubmit="return confirm('Are you sure you want to delete {{ pet.name }}?')">
-                                    <button type="submit" class="btn btn-sm btn-danger-custom">Delete</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="8" class="text-center text-gray-500">No pets found</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="card" style="border-radius:16px;overflow:hidden;
+     box-shadow:0 2px 8px rgba(0,0,0,0.06);border:none;">
+  <div class="table-responsive">
+    <table class="table admin-table mb-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Species</th>
+          <th>Breed</th>
+          <th>Age</th>
+          <th>Status</th>
+          <th>Health Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pet in pets %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center">
+              {% if pet.image_url %}
+              <img src="{{ pet.image_url }}" alt="{{ pet.name }}" class="rounded-circle me-2" style="width: 32px; height: 32px; object-fit: cover;">
+              {% else %}
+              <div class="rounded-circle bg-light me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                <span>🐾</span>
+              </div>
+              {% endif %}
+              <div>
+                <div style="font-weight: 500; color: #1F2937;">{{ pet.name }}</div>
+                <div style="font-size: 12px; color: #6B7280;">ID: {{ pet.id }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            {% if pet.species == 'dog' %}
+            <span style="background: #DBEAFE; color: #1E40AF; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Dog</span>
+            {% elif pet.species == 'cat' %}
+            <span style="background: #FCE7F3; color: #9F1239; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Cat</span>
+            {% elif pet.species == 'bird' %}
+            <span style="background: #D1FAE5; color: #065F46; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Bird</span>
+            {% else %}
+            <span style="background: #F3F4F6; color: #374151; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Other</span>
+            {% endif %}
+          </td>
+          <td>{{ pet.breed or 'Mixed' }}</td>
+          <td>{{ pet.age or 'Unknown' }} years</td>
+          <td>
+            {% if pet.status == 'available' %}
+            <span style="background: #D1FAE5; color: #065F46; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Available</span>
+            {% elif pet.status == 'adopted' %}
+            <span style="background: #FEE2E2; color: #991B1B; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Adopted</span>
+            {% else %}
+            <span style="background: #FEF3C7; color: #92400E; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">{{ pet.status }}</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if pet.health_status == 'healthy' %}
+            <span style="background: #D1FAE5; color: #065F46; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Healthy</span>
+            {% else %}
+            <span style="background: #FEF3C7; color: #92400E; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">{{ pet.health_status }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              <a href="{{ url_for('admin.edit_pet', pet_id=pet.id) }}" class="btn btn-sm" style="background: #F3F4F6; color: #374151; border: none; border-radius: 6px; padding: 4px 8px; font-size: 12px;">Edit</a>
+              <form method="POST" action="{{ url_for('admin.delete_pet', pet_id=pet.id) }}" style="display: inline;">
+                <button type="submit" class="btn btn-sm" style="background: #FEE2E2; color: #991B1B; border: none; border-radius: 6px; padding: 4px 8px; font-size: 12px;" onclick="return confirm('Are you sure you want to delete this pet?')">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 40px; color: #6B7280;">
+            No pets found. <a href="{{ url_for('admin.add_pet') }}" style="color: #0F1B2D; font-weight: 500;">Add your first pet</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

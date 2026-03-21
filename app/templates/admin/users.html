@@ -1,48 +1,72 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}
 
-{% block title %}Users Management{% endblock %}
-
+{% block title %}Users Management - PawPal{% endblock %}
 {% block page_title %}Users Management{% endblock %}
 
 {% block content %}
-<div class="card shadow">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Joined Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                    <tr>
-                        <td>{{ user.id }}</td>
-                        <td>{{ user.name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>
-                            <span class="badge bg-{{ 'primary' if user.role == 'admin' else 'secondary' }}">
-                                {{ user.role.capitalize() }}
-                            </span>
-                        </td>
-                        <td>{{ user.created_at.strftime('%B %d, %Y') }}</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-info" disabled>View Details</button>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center">No users found</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h4 style="font-family:'Playfair Display',serif;
+               color:#0F1B2D;font-weight:700;margin:0;">
+      All Users
+    </h4>
+    <p style="color:#6B7280;font-size:14px;margin:4px 0 0;">
+      Manage all registered users in the system
+    </p>
+  </div>
+</div>
+
+<div class="card" style="border-radius:16px;overflow:hidden;
+     box-shadow:0 2px 8px rgba(0,0,0,0.06);border:none;">
+  <div class="table-responsive">
+    <table class="table admin-table mb-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Joined Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center">
+              <div style="width: 32px; height: 32px; background: #EEF2FF; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-weight: 600; color: #4F46E5;">
+                {{ user.name[0].upper() }}
+              </div>
+              <div>
+                <div style="font-weight: 500; color: #1F2937;">{{ user.name }}</div>
+                <div style="font-size: 12px; color: #6B7280;">ID: {{ user.id }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ user.email }}</td>
+          <td>
+            {% if user.role == 'admin' %}
+            <span style="background: #DBEAFE; color: #1E40AF; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Admin</span>
+            {% else %}
+            <span style="background: #F3F4F6; color: #374151; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">User</span>
+            {% endif %}
+          </td>
+          <td>{{ user.created_at.strftime('%b %d, %Y') }}</td>
+          <td>
+            <div class="d-flex gap-2">
+              <button class="btn btn-sm" style="background: #F3F4F6; color: #374151; border: none; border-radius: 6px; padding: 4px 8px; font-size: 12px;" disabled>View Details</button>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 40px; color: #6B7280;">
+            No users found
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}

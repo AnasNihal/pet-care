@@ -1,73 +1,192 @@
-{% extends "admin/base.html" %}
-
-{% block title %}Edit Pet{% endblock %}
-
-{% block page_title %}Edit Pet: {{ pet.name }}{% endblock %}
-
+{% extends "base_admin.html" %}
+{% block page_title %}Edit Pet{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card shadow">
-            <div class="card-body">
-                <form method="POST">
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="name" class="form-label">Pet Name *</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ pet.name }}" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="species" class="form-label">Species *</label>
-                            <select class="form-control" id="species" name="species" required>
-                                <option value="">Select Species</option>
-                                <option value="dog" {{ 'selected' if pet.species == 'dog' }}>Dog</option>
-                                <option value="cat" {{ 'selected' if pet.species == 'cat' }}>Cat</option>
-                                <option value="bird" {{ 'selected' if pet.species == 'bird' }}>Bird</option>
-                                <option value="other" {{ 'selected' if pet.species == 'other' }}>Other</option>
-                            </select>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="breed" class="form-label">Breed</label>
-                            <input type="text" class="form-control" id="breed" name="breed" value="{{ pet.breed or '' }}">
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="age" class="form-label">Age (years)</label>
-                            <input type="number" class="form-control" id="age" name="age" value="{{ pet.age or '' }}" min="0" step="1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="health_status" class="form-label">Health Status</label>
-                        <input type="text" class="form-control" id="health_status" name="health_status" value="{{ pet.health_status or '' }}" placeholder="e.g., Healthy, Vaccinated, Special care needed">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select class="form-control" id="status" name="status">
-                            <option value="available" {{ 'selected' if pet.status == 'available' }}>Available</option>
-                            <option value="adopted" {{ 'selected' if pet.status == 'adopted' }}>Adopted</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="image_url" class="form-label">Image URL</label>
-                        <input type="url" class="form-control" id="image_url" name="image_url" value="{{ pet.image_url or '' }}" placeholder="https://example.com/pet-image.jpg">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="4" placeholder="Describe the pet's personality, habits, and any special requirements...">{{ pet.description or '' }}</textarea>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ url_for('admin.pets') }}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Update Pet</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="d-flex align-items-center gap-3 mb-4">
+  <a href="{{ url_for('admin.pets') }}" 
+     style="color:#6B7280;text-decoration:none;font-size:14px;">
+    ← Back to Pets
+  </a>
 </div>
+
+<div style="max-width:760px;">
+
+  <div class="mb-4">
+    <h4 style="font-family:'Playfair Display',serif;
+               font-weight:700;color:#0F1B2D;margin:0;">
+      Edit Pet
+    </h4>
+    <p style="color:#6B7280;font-size:14px;margin:6px 0 0;">
+      Updating details for "{{ pet.name }}".
+    </p>
+  </div>
+
+  <div style="background:white;border-radius:20px;padding:36px;
+              box-shadow:0 2px 12px rgba(0,0,0,0.07);">
+    <form method="POST" 
+          action="{{ url_for('admin.edit_pet', pet_id=pet.id) }}">
+
+      <!-- Row 1: Name + Species -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label fw-600" 
+                 style="font-size:13px;color:#374151;">
+            Pet Name <span style="color:#EF4444;">*</span>
+          </label>
+          <input type="text" name="name" required
+                 value="{{ pet.name }}" class="form-control"
+                 style="border-radius:10px;padding:11px 14px;
+                        border:1.5px solid #E5E7EB;font-size:14px;">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label fw-600" 
+                 style="font-size:13px;color:#374151;">
+            Species <span style="color:#EF4444;">*</span>
+          </label>
+          <select name="species" required class="form-select"
+                  style="border-radius:10px;padding:11px 14px;
+                         border:1.5px solid #E5E7EB;font-size:14px;">
+            <option value="dog" 
+              {% if pet.species == 'dog' %}selected{% endif %}>🐕 Dog</option>
+            <option value="cat" 
+              {% if pet.species == 'cat' %}selected{% endif %}>🐈 Cat</option>
+            <option value="bird" 
+              {% if pet.species == 'bird' %}selected{% endif %}>🦜 Bird</option>
+            <option value="rabbit" 
+              {% if pet.species == 'rabbit' %}selected{% endif %}>🐇 Rabbit</option>
+            <option value="other" 
+              {% if pet.species == 'other' %}selected{% endif %}>🐾 Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 2: Breed + Age -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-8">
+          <label class="form-label fw-600" 
+                 style="font-size:13px;color:#374151;">Breed</label>
+          <input type="text" name="breed"
+                 value="{{ pet.breed or '' }}" class="form-control"
+                 placeholder="e.g. Golden Retriever"
+                 style="border-radius:10px;padding:11px 14px;
+                        border:1.5px solid #E5E7EB;font-size:14px;">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-600" 
+                 style="font-size:13px;color:#374151;">
+            Age (years)
+          </label>
+          <input type="number" name="age" min="0" max="30"
+                 value="{{ pet.age or '' }}" class="form-control"
+                 style="border-radius:10px;padding:11px 14px;
+                        border:1.5px solid #E5E7EB;font-size:14px;">
+        </div>
+      </div>
+
+      <!-- Row 3: Health Status + Availability -->
+      <div class="row g-3 mb-3">
+        <div class="col-md-8">
+          <label class="form-label fw-600" 
+                 style="font-size:13px;color:#374151;">
+            Health Status
+          </label>
+          <input type="text" name="health_status"
+                 value="{{ pet.health_status or '' }}" class="form-control"
+                 placeholder="e.g. Vaccinated, healthy"
+                 style="border-radius:10px;padding:11px 14px;
+                        border:1.5px solid #E5E7EB;font-size:14px;">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label fw-600" 
+                 style="font-size:13px;color:#374151;">
+            Status
+          </label>
+          <select name="status" class="form-select"
+                  style="border-radius:10px;padding:11px 14px;
+                         border:1.5px solid #E5E7EB;font-size:14px;">
+            <option value="available" 
+              {% if pet.status == 'available' %}selected{% endif %}>
+              ✅ Available
+            </option>
+            <option value="adopted" 
+              {% if pet.status == 'adopted' %}selected{% endif %}>
+              🏠 Adopted
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 4: Image URL with live preview -->
+      <div class="mb-3">
+        <label class="form-label fw-600" 
+               style="font-size:13px;color:#374151;">
+          Image URL
+        </label>
+        <input type="text" name="image_url" id="imageUrlInput"
+               value="{{ pet.image_url or '' }}" class="form-control"
+               placeholder="https://example.com/pet-image.jpg"
+               style="border-radius:10px;padding:11px 14px;
+                      border:1.5px solid #E5E7EB;font-size:14px;"
+               oninput="updatePreview(this.value)">
+        <!-- Live preview -->
+        <div style="margin-top:12px;">
+          <img id="imagePreview"
+               src="{{ pet.image_url or 'https://placedog.net/400/250' }}"
+               alt="Pet preview"
+               style="width:100%;max-width:320px;height:200px;
+                      object-fit:cover;border-radius:12px;
+                      border:2px solid #E5E7EB;display:block;">
+        </div>
+      </div>
+
+      <!-- Row 5: Description -->
+      <div class="mb-4">
+        <label class="form-label fw-600" 
+               style="font-size:13px;color:#374151;">
+          Description
+        </label>
+        <textarea name="description" rows="4" class="form-control"
+                  placeholder="Tell adopters about this pet's personality..."
+                  style="border-radius:10px;padding:11px 14px;
+                         border:1.5px solid #E5E7EB;font-size:14px;
+                         resize:vertical;">{{ pet.description or '' }}</textarea>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="d-flex gap-3 flex-wrap">
+        <button type="submit"
+                style="background:#F5C518;color:#0F1B2D;border:none;
+                       padding:12px 32px;border-radius:999px;
+                       font-weight:700;font-size:14px;cursor:pointer;
+                       transition:background 0.2s;">
+          💾 Save Changes
+        </button>
+        <a href="{{ url_for('admin.pets') }}"
+           style="padding:12px 28px;border-radius:999px;
+                  border:1.5px solid #E5E7EB;color:#6B7280;
+                  text-decoration:none;font-size:14px;font-weight:500;
+                  display:inline-flex;align-items:center;">
+          Cancel
+        </a>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+<!-- Live image preview JS -->
+<script>
+function updatePreview(url) {
+  const preview = document.getElementById('imagePreview');
+  if (url.trim()) {
+    preview.src = url;
+    preview.onerror = function() {
+      this.src = 'https://placedog.net/400/250';
+    };
+  } else {
+    preview.src = 'https://placedog.net/400/250';
+  }
+}
+</script>
+
 {% endblock %}

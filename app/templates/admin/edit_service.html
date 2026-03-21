@@ -1,5 +1,5 @@
 {% extends "base_admin.html" %}
-{% block page_title %}Add New Service{% endblock %}
+{% block page_title %}Edit Service{% endblock %}
 {% block content %}
 
 <div class="d-flex align-items-center gap-3 mb-4">
@@ -14,18 +14,18 @@
   <div class="mb-4">
     <h4 style="font-family:'Playfair Display',serif;
                font-weight:700;color:#0F1B2D;margin:0;">
-      Add New Service
+      Edit Service
     </h4>
     <p style="color:#6B7280;font-size:14px;margin:6px 0 0;">
-      Fill in the details to add a new pet care service.
+      Update the details for "{{ service.name }}".
     </p>
   </div>
 
   <div style="background:white;border-radius:20px;padding:36px;
               box-shadow:0 2px 12px rgba(0,0,0,0.07);">
-    <form method="POST" action="{{ url_for('admin.add_service') }}">
+    <form method="POST" 
+          action="{{ url_for('admin.edit_service', service_id=service.id) }}">
 
-      <!-- Row 1: Name + Type -->
       <div class="row g-3 mb-3">
         <div class="col-md-7">
           <label class="form-label fw-600" 
@@ -33,8 +33,8 @@
             Service Name <span style="color:#EF4444;">*</span>
           </label>
           <input type="text" name="name" required
-                 class="form-control" 
-                 placeholder="e.g. City Vet Clinic"
+                 value="{{ service.name }}"
+                 class="form-control"
                  style="border-radius:10px;padding:11px 14px;
                         border:1.5px solid #E5E7EB;font-size:14px;">
         </div>
@@ -46,15 +46,22 @@
           <select name="service_type" required class="form-select"
                   style="border-radius:10px;padding:11px 14px;
                          border:1.5px solid #E5E7EB;font-size:14px;">
-            <option value="" disabled selected>Select type...</option>
-            <option value="vet">🏥 Veterinary</option>
-            <option value="grooming">✂️ Grooming</option>
-            <option value="training">🎓 Training</option>
+            <option value="vet" 
+              {% if service.service_type == 'vet' %}selected{% endif %}>
+              🏥 Veterinary
+            </option>
+            <option value="grooming" 
+              {% if service.service_type == 'grooming' %}selected{% endif %}>
+              ✂️ Grooming
+            </option>
+            <option value="training" 
+              {% if service.service_type == 'training' %}selected{% endif %}>
+              🎓 Training
+            </option>
           </select>
         </div>
       </div>
 
-      <!-- Row 2: Contact + Location -->
       <div class="row g-3 mb-3">
         <div class="col-md-6">
           <label class="form-label fw-600" 
@@ -62,8 +69,8 @@
             Contact Number
           </label>
           <input type="text" name="contact"
-                 class="form-control" 
-                 placeholder="e.g. +91 98765 43210"
+                 value="{{ service.contact or '' }}"
+                 class="form-control"
                  style="border-radius:10px;padding:11px 14px;
                         border:1.5px solid #E5E7EB;font-size:14px;">
         </div>
@@ -73,35 +80,31 @@
             Location
           </label>
           <input type="text" name="location"
-                 class="form-control" 
-                 placeholder="e.g. MG Road, Kozhikode"
+                 value="{{ service.location or '' }}"
+                 class="form-control"
                  style="border-radius:10px;padding:11px 14px;
                         border:1.5px solid #E5E7EB;font-size:14px;">
         </div>
       </div>
 
-      <!-- Row 3: Description -->
       <div class="mb-4">
         <label class="form-label fw-600" 
                style="font-size:13px;color:#374151;">
           Description
         </label>
         <textarea name="description" rows="4"
-                  class="form-control" 
-                  placeholder="Describe the service offered..."
+                  class="form-control"
                   style="border-radius:10px;padding:11px 14px;
                          border:1.5px solid #E5E7EB;font-size:14px;
-                         resize:vertical;"></textarea>
+                         resize:vertical;">{{ service.description or '' }}</textarea>
       </div>
 
-      <!-- Buttons -->
       <div class="d-flex gap-3">
         <button type="submit"
                 style="background:#F5C518;color:#0F1B2D;border:none;
                        padding:12px 32px;border-radius:999px;
-                       font-weight:700;font-size:14px;cursor:pointer;
-                       transition:all 0.2s;">
-          ✅ Add Service
+                       font-weight:700;font-size:14px;cursor:pointer;">
+          💾 Save Changes
         </button>
         <a href="{{ url_for('admin.services') }}"
            style="padding:12px 28px;border-radius:999px;

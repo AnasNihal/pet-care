@@ -1,66 +1,104 @@
-{% extends "admin/base.html" %}
+{% extends "base_admin.html" %}
 
-{% block title %}Adoption Requests{% endblock %}
-
+{% block title %}Adoption Requests - PawPal{% endblock %}
 {% block page_title %}Adoption Requests{% endblock %}
 
 {% block content %}
-<div class="card shadow">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>User</th>
-                        <th>Pet</th>
-                        <th>Request Date</th>
-                        <th>Status</th>
-                        <th>Message</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for request in requests %}
-                    <tr>
-                        <td>{{ request.id }}</td>
-                        <td>{{ request.user.name }}<br><small class="text-muted">{{ request.user.email }}</small></td>
-                        <td>{{ request.pet.name }}<br><small class="text-muted">{{ request.pet.species.capitalize() }}</small></td>
-                        <td>{{ request.created_at.strftime('%B %d, %Y') }}</td>
-                        <td>
-                            <span class="badge bg-{{ 
-                                'warning' if request.status == 'pending' 
-                                else 'success' if request.status == 'approved' 
-                                else 'danger' }}">
-                                {{ request.status.capitalize() }}
-                            </span>
-                        </td>
-                        <td>
-                            <small>{{ request.message[:50] }}{% if request.message|length > 50 %}...{% endif %}</small>
-                        </td>
-                        <td>
-                            {% if request.status == 'pending' %}
-                            <form method="POST" action="{{ url_for('admin.update_request', request_id=request.id) }}" class="d-inline">
-                                <input type="hidden" name="status" value="approved">
-                                <button type="submit" class="btn btn-sm btn-success" onclick="return confirm('Approve this adoption request?')">Approve</button>
-                            </form>
-                            <form method="POST" action="{{ url_for('admin.update_request', request_id=request.id) }}" class="d-inline">
-                                <input type="hidden" name="status" value="rejected">
-                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Reject this adoption request?')">Reject</button>
-                            </form>
-                            {% else %}
-                            <span class="text-muted">Processed</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="7" class="text-center">No adoption requests found</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h4 style="font-family:'Playfair Display',serif;
+               color:#0F1B2D;font-weight:700;margin:0;">
+      Adoption Requests
+    </h4>
+    <p style="color:#6B7280;font-size:14px;margin:4px 0 0;">
+      Manage all adoption requests submitted by users
+    </p>
+  </div>
+</div>
+
+<div class="card" style="border-radius:16px;overflow:hidden;
+     box-shadow:0 2px 8px rgba(0,0,0,0.06);border:none;">
+  <div class="table-responsive">
+    <table class="table admin-table mb-0">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Pet</th>
+          <th>Request Date</th>
+          <th>Status</th>
+          <th>Message</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in requests %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center">
+              <div style="width: 32px; height: 32px; background: #EEF2FF; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-weight: 600; color: #4F46E5;">
+                {{ request.user.name[0].upper() }}
+              </div>
+              <div>
+                <div style="font-weight: 500; color: #1F2937;">{{ request.user.name }}</div>
+                <div style="font-size: 12px; color: #6B7280;">{{ request.user.email }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center">
+              <div style="width: 32px; height: 32px; background: #FEF3C7; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
+                🐾
+              </div>
+              <div>
+                <div style="font-weight: 500; color: #1F2937;">{{ request.pet.name }}</div>
+                <div style="font-size: 12px; color: #6B7280;">{{ request.pet.species }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-size: 14px; color: #374151;">{{ request.created_at.strftime('%b %d, %Y') }}</div>
+            <div style="font-size: 12px; color: #6B7280;">{{ request.created_at.strftime('%I:%M %p') }}</div>
+          </td>
+          <td>
+            {% if request.status == 'pending' %}
+            <span style="background: #FEF3C7; color: #92400E; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Pending</span>
+            {% elif request.status == 'approved' %}
+            <span style="background: #D1FAE5; color: #065F46; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Approved</span>
+            {% elif request.status == 'rejected' %}
+            <span style="background: #FEE2E2; color: #991B1B; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;">Rejected</span>
+            {% endif %}
+          </td>
+          <td>
+            <div style="font-size: 14px; color: #374151; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              {{ request.message or 'No message' }}
+            </div>
+          </td>
+          <td>
+            <div class="d-flex gap-2">
+              {% if request.status == 'pending' %}
+              <form method="POST" action="{{ url_for('admin.update_request', request_id=request.id) }}" style="display: inline;">
+                <input type="hidden" name="status" value="approved">
+                <button type="submit" class="btn btn-sm" style="background: #D1FAE5; color: #065F46; border: none; border-radius: 6px; padding: 4px 8px; font-size: 12px;" onclick="return confirm('Approve this adoption request?')">Approve</button>
+              </form>
+              <form method="POST" action="{{ url_for('admin.update_request', request_id=request.id) }}" style="display: inline;">
+                <input type="hidden" name="status" value="rejected">
+                <button type="submit" class="btn btn-sm" style="background: #FEE2E2; color: #991B1B; border: none; border-radius: 6px; padding: 4px 8px; font-size: 12px;" onclick="return confirm('Reject this adoption request?')">Reject</button>
+              </form>
+              {% else %}
+              <span style="font-size: 12px; color: #6B7280;">No actions</span>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 40px; color: #6B7280;">
+            No adoption requests found
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
 {% endblock %}
